@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import BranchTree from '@/components/BranchTree.vue'
+import Info from '@/components/Info.vue'
 
-const tab1 = ref('cod')
 const splitterModel = ref(40)
 </script>
 
@@ -15,25 +16,10 @@ q-page
 		q-splitter(v-model="splitterModel" )
 			template(v-slot:before)
 				q-card.left
-					p laksjl
-					p laksjl
-					p laksjl
-					p laksjl
-					p laksjl
-					p laksjl
-					p laksjl
-					p laksjl
+					BranchTree
 			template(v-slot:after)
 				.q-pl-sm
-					q-tabs(v-model="tab1" align="left" dense active-color="primary" :stretch="false")
-						q-tab(name="cod" label="Сведения о коде")
-						q-tab(name="sprav" label="Сведения о справочнике")
-					q-card.right
-						q-tab-panels(v-model="tab1")
-							q-tab-panel(name="cod")
-								p cod
-							q-tab-panel(name="sprav")
-								p sprav
+					Info
 
 </template>
 
@@ -44,12 +30,9 @@ q-page
 	justify-content: center;
 	align-items: center;
 }
-.left,
-.right {
+.left {
 	box-shadow: none;
 	border-radius: 4px;
-}
-.left {
 	box-shadow: none;
 	border-radius: 4px;
 	margin-right: 0.5rem;
