@@ -9,9 +9,7 @@ const splitterModel = ref(40)
 <template lang="pug">
 q-page
 	.container
-		.zag
-			q-icon(name="mdi-book-open-page-variant-outline").q-mr-sm
-			|Коды полномочий
+		.zag Коды полномочий
 
 		q-splitter(v-model="splitterModel" )
 			template(v-slot:before)

@@ -329,9 +329,6 @@ a:hover:not(.q-link) {
 	}
 }
 
-.q-field--dense .q-field__append {
-	transform: translateY(5px); //triangle in select move down in dense
-}
 .fieldset {
 	border: 1px solid green;
 }
@@ -416,4 +413,15 @@ a:hover:not(.q-link) {
 	position: relative;
 	// height: 100%;
 	// background: pink;
+}
+
+.q-tree__node--selected {
+	background: var(--q-primary-selection);
+	.q-tree__node-header-content {
+		color: var(--q-primary-darken-2);
+	}
+}
+
+.q-field--dense .q-field__control {
+	height: 32px;
 }
