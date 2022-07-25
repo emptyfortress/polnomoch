@@ -6,7 +6,7 @@ const info = useInfo()
 
 <template lang="pug">
 .center
-	q-btn(color="primary" label="На согласование" @click="info.toggle")
+	q-btn(color="primary" label="На согласование" @click="")
 </template>
 
 <style scoped lang="scss">
