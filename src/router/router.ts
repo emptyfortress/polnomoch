@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Ks from '@/pages/Ks.vue'
 import Card from '@/pages/Card.vue'
 // import Home from '@/pages/Home.vue'
 
