@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watchEffect, onMounted } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
@@ -9,17 +9,28 @@ const myinfo = useInfo()
 const selected = ref(['0'])
 const expanded = ref(['0', '4'])
 const filter = ref('')
+const input = ref()
+const tree = ref()
+
+onMounted(() => {
+	watchEffect(() => {
+		if (filter.value.length > 1) {
+			tree.value.expandAll()
+		}
+	})
+})
 </script>
 
 <template lang="pug">
 .row
 	q-space
-	q-input(dense debounce="0" hide-bottom-space color="primary" autofocus v-model="filter" clearable).input
+	q-input(dense ref="input" debounce="0" hide-bottom-space color="primary" autofocus v-model="filter" clearable).input
 		template(v-slot:prepend)
 			q-icon(name="mdi-magnify")
 
 q-scroll-area.scroll
 	q-tree(:nodes="myinfo.nodes"
+		ref="tree"
 		node-key="id"
 		no-results-label="Ничего нет"
 		no-selection-unset
@@ -48,7 +59,6 @@ q-scroll-area.scroll
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	overflow: auto;
 }
 .ico {
 	font-size: 0.8rem;
