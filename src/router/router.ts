@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Ks from '@/pages/Ks.vue'
 import Card from '@/pages/Card.vue'
+import Test from '@/components/Test.vue'
 // import Home from '@/pages/Home.vue'
 
 declare module 'vue-router' {
@@ -24,6 +24,11 @@ export const router = createRouter({
 		{
 			path: '/power',
 			component: Card,
+			meta: { transition: 'slide-left', title: 'Коды полномочий', requiresAuth: false },
+		},
+		{
+			path: '/test',
+			component: Test,
 			meta: { transition: 'slide-left', title: 'Коды полномочий', requiresAuth: false },
 		},
 		{

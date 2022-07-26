@@ -3,7 +3,7 @@ import { ref, watchEffect, onMounted } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
-import TreeMenu from '@/components/TreeMenu.vue'
+// import TreeMenu from '@/components/TreeMenu.vue'
 
 const emit = defineEmits(['select'])
 
@@ -76,7 +76,7 @@ q-scroll-area.scroll
 				component(:is="WordHighlighter" :query="filter") {{ prop.node.label }}
 				//- q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}")
 				//- 	q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
-				component(:is="TreeMenu" :node="prop.node" )
+				//- component(:is="TreeMenu" :node="prop.node" )
 				//- .buttons
 				//- 	q-btn(flat round dense icon="mdi-trash-can-outline" @click.stop="show(prop.node.id)")
 
