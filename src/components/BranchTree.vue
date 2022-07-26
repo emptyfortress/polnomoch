@@ -3,7 +3,8 @@ import { ref, watchEffect, onMounted } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
-// import TreeMenu from '@/components/TreeMenu.vue'
+import TreeMenu from '@/components/TreeMenu.vue'
+import type { Ref } from 'vue'
 
 const emit = defineEmits(['select'])
 
@@ -33,14 +34,14 @@ const expandAll = () => {
 	} else tree.value.collapseAll()
 }
 
-const editNode = async (e: Category) => {
-	editMode.value = true
-	await nextTick(() => {
-		node.value[e.id as any].show()
-	})
-}
+// const editNode = async (e: Category) => {
+// 	editMode.value = true
+// 	await nextTick(() => {
+// 		node.value[e.id as any].show()
+// 	})
+// }
 
-const show = (e) => {
+const show = (e: any) => {
 	node.value[e.id].show()
 }
 </script>
@@ -74,11 +75,9 @@ q-scroll-area.scroll
 			.item
 				component(:is="SvgIcon" :name="prop.node.icon").ico
 				component(:is="WordHighlighter" :query="filter") {{ prop.node.label }}
-				//- q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}")
-				//- 	q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
-				//- component(:is="TreeMenu" :node="prop.node" )
-				//- .buttons
-				//- 	q-btn(flat round dense icon="mdi-trash-can-outline" @click.stop="show(prop.node.id)")
+				q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}")
+					q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
+				component(:is="TreeMenu" :node="prop.node" )
 
 </template>
 

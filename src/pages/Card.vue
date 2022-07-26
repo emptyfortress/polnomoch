@@ -5,9 +5,9 @@ import Info from '@/components/Info.vue'
 
 const splitterModel = ref(50)
 
-const selected = ref(null)
+const selected = ref()
 
-const setSelected = (e) => {
+const setSelected = (e: string) => {
 	selected.value = e
 }
 </script>
