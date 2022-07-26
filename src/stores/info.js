@@ -118,7 +118,7 @@ export const useInfo = defineStore({
 					{
 						id: '3',
 						icon: 'node-folder',
-						label: 'МЦР (министерство цифрового развития)',
+						label: 'МинЦифры (министерство цифрового развития)',
 						typ: 1,
 						children: [
 							{

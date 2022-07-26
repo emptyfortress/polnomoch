@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect, onMounted } from 'vue'
+import { ref, watchEffect, onMounted, onBeforeUpdate, nextTick } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
@@ -34,16 +34,19 @@ const expandAll = () => {
 	} else tree.value.collapseAll()
 }
 
-// const editNode = async (e: Category) => {
-// 	editMode.value = true
-// 	await nextTick(() => {
-// 		node.value[e.id as any].show()
-// 	})
-// }
+const editMode = ref(false)
 
-const show = (e: any) => {
-	node.value[e.id].show()
+const editNode = async (e: any) => {
+	console.log(e)
+	editMode.value = true
+	await nextTick(() => {
+		node.value[e.id as any].show()
+	})
 }
+
+onBeforeUpdate(() => {
+	node.value = []
+})
 </script>
 
 <template lang="pug">
@@ -75,9 +78,9 @@ q-scroll-area.scroll
 			.item
 				component(:is="SvgIcon" :name="prop.node.icon").ico
 				component(:is="WordHighlighter" :query="filter") {{ prop.node.label }}
-				q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}")
+				q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}" v-if="editMode"  @hide="editMode = false")
 					q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
-				component(:is="TreeMenu" :node="prop.node" )
+				component(:is="TreeMenu" :node="prop.node" @edit="editNode(prop.node)")
 
 </template>
 

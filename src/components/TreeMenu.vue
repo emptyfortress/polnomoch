@@ -9,27 +9,23 @@ const props = defineProps<{
 	}
 }>()
 
-const emit = defineEmits(['add1', 'add2', 'kill', 'edit'])
+const emit = defineEmits(['add1', 'add2', 'kill', 'edit', 'edit1'])
 
 const calcClass = (e: number) => {
 	if (props.node?.typ === 2 && e === 0) {
-		return 'disab'
-	} else if (props.node?.typ === 2 && e === 1) {
-		return 'disab'
-	} else if (props.node?.typ === 2 && e === 3) {
-		return 'disab'
-	} else return ''
+		return 'hid'
+	}
+	if (props.node?.typ === 2 && e === 3) {
+		return 'hid'
+	}
 }
 
 const action = (item: any) => {
-	if (props.node?.typ === 2 && item.id === 0) {
+	if (item.id === 3) {
 		return
 	}
-	if (props.node?.typ === 2 && item.id === 1) {
-		return
-	}
-	if (props.node?.typ === 2 && item.id === 3) {
-		return
+	if (props.node.typ === 2 && item.id === 2) {
+		return edit1()
 	}
 	return item.action()
 }
@@ -46,6 +42,9 @@ const kill = () => {
 const edit = () => {
 	emit('edit')
 }
+const edit1 = () => {
+	emit('edit1')
+}
 
 const menu = [
 	{
@@ -60,10 +59,14 @@ const menu = [
 		label: 'Добавить код полномочий',
 		icon: 'spravochnik',
 		action: add2,
-		className: calcClass(1),
 	},
 	{ id: 2, label: 'Редактировать', icon: 'mdi-pencil', action: edit },
-	{ id: 3, label: 'Синхронизировать', icon: 'mdi-reload', className: 'disab' },
+	{
+		id: 3,
+		label: 'Синхронизировать',
+		icon: 'mdi-reload',
+		className: calcClass(3),
+	},
 	{ id: 5, label: 'Удалить', icon: 'mdi-trash-can-outline', action: kill },
 ]
 </script>
@@ -71,7 +74,7 @@ const menu = [
 <template lang="pug">
 q-menu(context-menu)
 	q-list
-		q-item(v-for="item in menu" :key="item.id" @click="action(item)" :class="item.className")
+		q-item(v-for="item in menu" clickable v-close-popup :key="item.id" @click="action(item)" :class="item.className")
 			q-item-section(avatar)
 				component(:is="SvgIcon" :name="item.icon" v-if="item.id < 2")
 				q-icon(:name="item.icon" v-else)
@@ -94,5 +97,8 @@ q-menu(context-menu)
 .disab {
 	opacity: 0.5;
 	cursor: not-allowed !important;
+}
+.hid {
+	display: none;
 }
 </style>
