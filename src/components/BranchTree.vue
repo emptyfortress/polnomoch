@@ -3,19 +3,27 @@ import { ref, watchEffect, onMounted } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
+import TreeMenu from '@/components/TreeMenu.vue'
+
+const emit = defineEmits(['select'])
 
 const myinfo = useInfo()
 
-const selected = ref(['0'])
+const selected = ref('4')
 const expanded = ref(['0', '4'])
 const filter = ref('')
 const input = ref()
 const tree = ref()
+const edit = ref(false)
+const node: Ref<any[]> = ref([])
 
 onMounted(() => {
 	watchEffect(() => {
 		if (filter.value.length > 1) {
 			tree.value.expandAll()
+		}
+		if (selected.value) {
+			emit('select', selected.value)
 		}
 	})
 })
@@ -24,10 +32,21 @@ const expandAll = () => {
 		tree.value.expandAll()
 	} else tree.value.collapseAll()
 }
+
+const editNode = async (e: Category) => {
+	editMode.value = true
+	await nextTick(() => {
+		node.value[e.id as any].show()
+	})
+}
+
+const show = (e) => {
+	node.value[e.id].show()
+}
 </script>
 
 <template lang="pug">
-.row.justify-between
+.row.justify-between.no-wrap
 	.razv(@click="expandAll")
 		q-btn(round flat dense icon="mdi-unfold-more-horizontal")
 		span Развернуть
@@ -44,7 +63,7 @@ q-scroll-area.scroll
 		no-selection-unset
 		v-model:selected="selected"
 		v-model:expanded="expanded"
-		:filter="filter")
+		:filter="filter").tree
 
 		template(v-slot:header-root="prop")
 			div(class="row items-center")
@@ -54,7 +73,12 @@ q-scroll-area.scroll
 		template(v-slot:default-header="prop")
 			.item
 				component(:is="SvgIcon" :name="prop.node.icon").ico
-				component(:is="WordHighlighter" :query="filter").ellipsis {{ prop.node.label }}
+				component(:is="WordHighlighter" :query="filter") {{ prop.node.label }}
+				//- q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}")
+				//- 	q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
+				component(:is="TreeMenu" :node="prop.node" )
+				//- .buttons
+				//- 	q-btn(flat round dense icon="mdi-trash-can-outline" @click.stop="show(prop.node.id)")
 
 </template>
 
@@ -64,9 +88,11 @@ q-scroll-area.scroll
 	width: 200px;
 }
 .item {
+	position: relative;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	width: 100%;
 }
 .ico {
 	font-size: 0.8rem;
@@ -74,11 +100,16 @@ q-scroll-area.scroll
 	flex-shrink: 0;
 }
 .scroll {
-	height: calc(100% - 20px);
+	height: calc(100% - 30px);
 }
 .razv {
 	font-size: 0.7rem;
 	color: #666;
 	cursor: pointer;
+}
+.buttons {
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 </style>

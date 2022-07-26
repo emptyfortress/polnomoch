@@ -3,7 +3,13 @@ import { ref } from 'vue'
 import BranchTree from '@/components/BranchTree.vue'
 import Info from '@/components/Info.vue'
 
-const splitterModel = ref(40)
+const splitterModel = ref(50)
+
+const selected = ref(null)
+
+const setSelected = (e) => {
+	selected.value = e
+}
 </script>
 
 <template lang="pug">
@@ -14,10 +20,10 @@ q-page
 		q-splitter(v-model="splitterModel" )
 			template(v-slot:before)
 				q-card.left
-					BranchTree
+					component(:is="BranchTree" @select="setSelected")
 			template(v-slot:after)
 				.q-pl-sm
-					Info
+					component(:is="Info" :selected="selected")
 
 </template>
 

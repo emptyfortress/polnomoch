@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+const props = defineProps({
+	selected: {
+		type: String,
+		default: 'test',
+	},
+})
+
 const tab1 = ref('cod')
 </script>
 
@@ -11,7 +18,14 @@ q-tabs(v-model="tab1" align="left" dense active-color="primary")
 q-card.right
 	q-tab-panels(v-model="tab1" transition-prev="jump-down" animated transition-next="jump-up")
 		q-tab-panel(name="cod")
-			p cod
+			p
+				|{{props.selected}}
+			q-menu(context-menu)
+				q-list
+					q-item(v-for="n in 5" clickable v-close-popup)
+						q-item-section
+							q-label lakjslaj {{n}}
+
 		q-tab-panel(name="sprav")
 			p sprav
 </template>
