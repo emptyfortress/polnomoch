@@ -24,7 +24,7 @@ onMounted(() => {
 <template lang="pug">
 .row
 	q-space
-	q-input(dense ref="input" debounce="0" hide-bottom-space color="primary" autofocus v-model="filter" clearable).input
+	q-input(dense ref="input" debounce="0" hide-bottom-space color="primary" autofocus v-model="filter" clearable @clear="filter = ''").input
 		template(v-slot:prepend)
 			q-icon(name="mdi-magnify")
 
