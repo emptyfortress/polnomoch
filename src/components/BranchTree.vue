@@ -5,6 +5,7 @@ import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
 import TreeMenu from '@/components/TreeMenu.vue'
 import type { Ref } from 'vue'
+import { uid, useQuasar } from 'quasar'
 
 const emit = defineEmits(['select'])
 
@@ -17,6 +18,7 @@ const input = ref()
 const tree = ref()
 const edit = ref(false)
 const node: Ref<any[]> = ref([])
+const current = ref()
 
 onMounted(() => {
 	watchEffect(() => {
@@ -42,6 +44,50 @@ const editNode = async (e: any) => {
 	await nextTick(() => {
 		node.value[e.id as any].show()
 	})
+}
+
+const dialog = ref(false)
+
+const killNode = (e: Node) => {
+	if (e.typ === 1) {
+		current.value = e
+		dialog.value = true
+		return
+	} else myinfo.killNode(e.id)
+}
+const $q = useQuasar()
+const kill1 = (e: Node) => {
+	myinfo.killNode(e.id)
+	$q.notify({
+		message: 'Справочник удален.',
+		color: 'negative',
+		actions: [
+			{
+				label: 'Вернуть',
+				color: 'white',
+				handler: () => undo(e),
+			},
+		],
+	})
+}
+const undo = (e: Node) => {
+	myinfo.addSprav(e)
+	selected.value = e.id
+}
+
+const addSprav = () => {
+	const temp = {
+		id: uid(),
+		label: 'Новый справочник',
+		icon: 'node-folder',
+		typ: 1,
+		children: [],
+	}
+	myinfo.addSprav(temp)
+	selected.value = temp.id
+}
+const addCode = (e: Node) => {
+	console.log(e)
 }
 
 onBeforeUpdate(() => {
@@ -73,6 +119,13 @@ q-scroll-area.scroll
 			div(class="row items-center")
 				q-icon(name="mdi-bookshelf" size="md").q-mr-sm
 				div {{ prop.node.label }}
+				q-menu(context-menu)
+					q-list
+						q-item(clickable v-close-popup @click="addSprav")
+							q-item-section(avatar)
+								component(:is="SvgIcon" name="node-folder")
+							q-item-section Добавить справочник
+
 
 		template(v-slot:default-header="prop")
 			.item
@@ -80,12 +133,32 @@ q-scroll-area.scroll
 				component(:is="WordHighlighter" :query="filter") {{ prop.node.label }}
 				q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}" v-if="editMode"  @hide="editMode = false")
 					q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
-				component(:is="TreeMenu" :node="prop.node" @edit="editNode(prop.node)")
+				component(:is="TreeMenu"
+					:node="prop.node"
+					@add1="addSprav"
+					@add2="addCode(prop.node)"
+					@kill="killNode(prop.node)"
+					@edit="editNode(prop.node)")
+
+q-dialog(v-model="dialog" )
+	q-card.kill
+		.row.justify-between.items-center
+			.text-h6.q-mt-none Удаление справочника
+			q-btn(flat round icon="mdi-close" v-close-popup)
+		p.q-mt-md Вы уверены что хотите удалить справочник? Данное действие необратимо и уничтожит все данные в справочнике.
+		q-card-actions(align="right")
+			q-btn(label="Отмена" flat color="primary" v-close-popup)
+			q-btn(label="Удалить" flat color="primary" v-close-popup @click="kill1(current)")
 
 </template>
 
 <style scoped lang="scss">
-//@import '@/assets/css/colors.scss';
+.kill {
+	padding: 1rem;
+	padding-top: 0.5rem;
+	min-width: 400px;
+	border-top: 7px solid var(--q-negative);
+}
 .input {
 	width: 200px;
 }
@@ -113,5 +186,11 @@ q-scroll-area.scroll
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+.q-item {
+	cursor: pointer;
+	&:hover {
+		background: #ececec;
+	}
 }
 </style>
