@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import { uid } from 'quasar'
-import { deleteNodeFromTree, insertNodeIntoTree } from '@/utils/utils'
+import { deleteNodeFromTree, insertNodeIntoTree, getNodeFromTree } from '@/utils/utils'
 
 export const useInfo = defineStore({
 	id: 'info',
 	state: () => ({
+		selected: '4',
 		nodes: [
 			{
 				id: '0',
@@ -199,13 +200,25 @@ export const useInfo = defineStore({
 			},
 		],
 	}),
-	getters: {},
+	getters: {
+		currentItem: (state) => {
+			return getNodeFromTree(state.nodes[0], state.selected)
+		},
+	},
 	actions: {
 		addSprav(payload) {
 			this.nodes[0].children.push(payload)
 		},
+		addCode(id, node) {
+			console.log(id)
+			console.log(node)
+			insertNodeIntoTree(this.nodes[0], id, node)
+		},
 		killNode(id) {
 			deleteNodeFromTree(this.nodes[0], id)
+		},
+		setSelected(payload) {
+			this.selected = payload
 		},
 	},
 })

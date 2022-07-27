@@ -1,40 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useInfo } from '@/stores/info'
+import SvgIcon from '@/components/SvgIcon.vue'
 
-const props = defineProps({
-	selected: {
-		type: String,
-		default: 'test',
-	},
-})
-
-const tab1 = ref('cod')
+const myinfo = useInfo()
+const current = ref(myinfo.currentItem)
 </script>
 
 <template lang="pug">
-//- q-tabs(v-model="tab1" align="left" dense active-color="primary")
-//- 	q-tab(name="cod" label="Сведения о коде")
-//- 	q-tab(name="sprav" label="Сведения о справочнике")
-p {{props.selected}}
-	//- q-tab-panels(v-model="tab1" transition-prev="jump-down" animated transition-next="jump-up")
-	//- 	q-tab-panel(name="cod")
-	//- 		p
-	//- 			|{{props.selected}}
-	//- 		q-menu(context-menu)
-	//- 			q-list
-	//- 				q-item(v-for="n in 5" clickable v-close-popup)
-	//- 					q-item-section
-	//- 						q-label lakjslaj {{n}}
-
-	//- 	q-tab-panel(name="sprav")
-	//- 		p sprav
+.q-ma-md
+	.zg
+		q-icon(name="mdi-bookshelf" v-if="myinfo.currentItem.id === '0'").some
+		component(:is="SvgIcon" :name="myinfo.currentItem.icon" v-else).icon
+		|{{myinfo.currentItem.label}}
+	//- p {{current}}
 </template>
 
 <style scoped lang="scss">
 //@import '@/assets/css/colors.scss';
-.right {
-	box-shadow: none;
-	border-radius: 4px;
-	height: calc(100vh - 211px);
+.zg {
+	font-size: 1.1rem;
+	// font-weight: bold;
+	margin-bottom: 1rem;
+	.icon {
+		margin-right: 0.7rem;
+		margin-top: -7px;
+	}
+	.some {
+		font-size: 1.8rem;
+		margin-right: 0.5rem;
+	}
 }
 </style>

@@ -7,11 +7,8 @@ import TreeMenu from '@/components/TreeMenu.vue'
 import type { Ref } from 'vue'
 import { uid, useQuasar } from 'quasar'
 
-const emit = defineEmits(['select'])
-
 const myinfo = useInfo()
 
-const selected = ref('4')
 const expanded = ref(['0', '4'])
 const filter = ref('')
 const input = ref()
@@ -25,9 +22,6 @@ onMounted(() => {
 		if (filter.value.length > 1) {
 			tree.value.expandAll()
 		}
-		if (selected.value) {
-			emit('select', selected.value)
-		}
 	})
 })
 const expandAll = () => {
@@ -39,7 +33,6 @@ const expandAll = () => {
 const editMode = ref(false)
 
 const editNode = async (e: any) => {
-	console.log(e)
 	editMode.value = true
 	await nextTick(() => {
 		node.value[e.id as any].show()
@@ -47,17 +40,22 @@ const editNode = async (e: any) => {
 }
 
 const dialog = ref(false)
+const dialog1 = ref(false)
 
 const killNode = (e: Node) => {
 	if (e.typ === 1) {
 		current.value = e
 		dialog.value = true
 		return
-	} else myinfo.killNode(e.id)
+	} else {
+		myinfo.killNode(e.id)
+		myinfo.setSelected('0')
+	}
 }
 const $q = useQuasar()
 const kill1 = (e: Node) => {
 	myinfo.killNode(e.id)
+	myinfo.setSelected('0')
 	$q.notify({
 		message: 'Справочник удален.',
 		color: 'negative',
@@ -72,7 +70,7 @@ const kill1 = (e: Node) => {
 }
 const undo = (e: Node) => {
 	myinfo.addSprav(e)
-	selected.value = e.id
+	myinfo.setSelected(e.id)
 }
 
 const addSprav = () => {
@@ -84,10 +82,20 @@ const addSprav = () => {
 		children: [],
 	}
 	myinfo.addSprav(temp)
-	selected.value = temp.id
+	myinfo.setSelected(temp.id)
 }
 const addCode = (e: Node) => {
+	dialog1.value = true
 	console.log(e)
+	// let temp = {
+	// 	id: uid(),
+	// 	label: 'Новый справочник',
+	// 	icon: 'node-folder',
+	// 	typ: 1,
+	// 	children: [],
+	// }
+	// }
+	// myinfo.addCode(e, {})
 }
 
 onBeforeUpdate(() => {
@@ -111,7 +119,7 @@ q-scroll-area.scroll
 		node-key="id"
 		no-results-label="Ничего не найдено"
 		no-selection-unset
-		v-model:selected="selected"
+		v-model:selected="myinfo.selected"
 		v-model:expanded="expanded"
 		:filter="filter").tree
 
@@ -150,6 +158,16 @@ q-dialog(v-model="dialog" )
 			q-btn(label="Отмена" flat color="primary" v-close-popup)
 			q-btn(label="Удалить" flat color="primary" v-close-popup @click="kill1(current)")
 
+q-dialog(v-model="dialog1" )
+	q-card.create
+		.row.justify-between.items-center
+			.text-h6.q-mt-none Новый код полномочий
+			q-btn(flat round icon="mdi-close" v-close-popup)
+		p.q-mt-md Здесь будет форма создания
+		q-card-actions(align="right")
+			q-btn(label="Отмена" flat color="primary" v-close-popup)
+			q-btn(label="Добавить" flat color="primary" v-close-popup)
+
 </template>
 
 <style scoped lang="scss">
@@ -158,6 +176,12 @@ q-dialog(v-model="dialog" )
 	padding-top: 0.5rem;
 	min-width: 400px;
 	border-top: 7px solid var(--q-negative);
+}
+.create {
+	padding: 1rem;
+	padding-top: 0.5rem;
+	min-width: 600px;
+	border-top: 7px solid var(--q-primary);
 }
 .input {
 	width: 200px;
