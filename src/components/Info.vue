@@ -4,16 +4,43 @@ import { useInfo } from '@/stores/info'
 import SvgIcon from '@/components/SvgIcon.vue'
 
 const myinfo = useInfo()
-const current = ref(myinfo.currentItem)
 </script>
 
 <template lang="pug">
-.q-ma-md
+q-card.q-ml-sm.rel.q-pa-md
+	transition(name="fade")
+		q-btn(round dense icon="mdi-pencil" color="primary" v-if="myinfo.currentItem.typ === 2").plus
+		q-btn(round dense icon="mdi-plus" color="primary" v-else).plus
 	.zg
 		q-icon(name="mdi-bookshelf" v-if="myinfo.currentItem.id === '0'").some
 		component(:is="SvgIcon" :name="myinfo.currentItem.icon" v-else).icon
 		|{{myinfo.currentItem.label}}
-	//- p {{current}}
+
+	q-separator
+	br
+	transition(name="slide-top")
+		template(v-if="myinfo.currentItem.typ === 1")
+			.mygrid
+				div Код справочника:
+				div PDDV_02
+				div Составитель:
+				div ООО "ДоксВижн"
+				div Дата обновления:
+				div 21.03.2022
+		template(v-else)
+			.mygrid
+				div Код полномочия:
+				div CDDV_02
+				div Название полномочий:
+				div Подписание договоров от 100 т.руб.
+				div Описание:
+				div Подписание и отправка договоров от 100 т.руб.
+				div Доверитель:
+				div ООО "ДоксВижн"
+				div Дата внесения:
+				div 21.05.2022
+				div Дата обновления:
+				div 01.07.2022
 </template>
 
 <style scoped lang="scss">
@@ -30,5 +57,16 @@ const current = ref(myinfo.currentItem)
 		font-size: 1.8rem;
 		margin-right: 0.5rem;
 	}
+}
+.mygrid {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 1rem;
+	row-gap: 0.5rem;
+}
+.plus {
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.5rem;
 }
 </style>

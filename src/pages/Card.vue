@@ -57,8 +57,7 @@ q-page
 						q-btn(round flat icon="mdi-close" @click="nextMorph" size="sm").close
 
 			template(v-slot:after)
-				q-card.q-ml-sm.rel
-					component(:is="Info")
+				component(:is="Info")
 
 </template>
 
