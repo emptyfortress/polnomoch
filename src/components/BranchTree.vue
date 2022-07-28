@@ -152,6 +152,8 @@ q-scroll-area.scroll
 					component(:is="TreeMenu"
 						:node="prop.node"
 						:context="false"
+						anchor="bottom right"
+						self="top right"
 						@add1="addSprav"
 						@add2="addCode(prop.node)"
 						@kill="killNode(prop.node)"
