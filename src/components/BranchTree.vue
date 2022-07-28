@@ -143,10 +143,19 @@ q-scroll-area.scroll
 					q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
 				component(:is="TreeMenu"
 					:node="prop.node"
+					:context="true"
 					@add1="addSprav"
 					@add2="addCode(prop.node)"
 					@kill="killNode(prop.node)"
 					@edit="editNode(prop.node)")
+				q-btn(round dense flat icon="mdi-dots-vertical" @click.stop).hover
+					component(:is="TreeMenu"
+						:node="prop.node"
+						:context="false"
+						@add1="addSprav"
+						@add2="addCode(prop.node)"
+						@kill="killNode(prop.node)"
+						@edit="editNode(prop.node)")
 
 q-dialog(v-model="dialog" )
 	q-card.kill
@@ -192,6 +201,19 @@ q-dialog(v-model="dialog1" )
 	justify-content: flex-start;
 	align-items: center;
 	width: 100%;
+	.hover {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		visibility: hidden;
+	}
+	&:hover {
+		// background: #f5f5f5;
+		.hover {
+			visibility: visible;
+		}
+	}
 }
 .ico {
 	font-size: 0.8rem;
@@ -214,7 +236,7 @@ q-dialog(v-model="dialog1" )
 .q-item {
 	cursor: pointer;
 	&:hover {
-		background: #ececec;
+		background: #f5f5f5;
 	}
 }
 </style>

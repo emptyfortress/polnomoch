@@ -7,6 +7,7 @@ const props = defineProps<{
 		label: String
 		typ: Number
 	}
+	context: Boolean
 }>()
 
 const emit = defineEmits(['add1', 'add2', 'kill', 'edit', 'edit1'])
@@ -72,7 +73,7 @@ const menu = [
 </script>
 
 <template lang="pug">
-q-menu(context-menu)
+q-menu(:context-menu="props.context")
 	q-list
 		q-item(v-for="item in menu" clickable v-close-popup :key="item.id" @click="action(item)" :class="item.className")
 			q-item-section(avatar)
@@ -87,7 +88,7 @@ q-menu(context-menu)
 .q-item {
 	cursor: pointer;
 	&:hover {
-		background: #ececec;
+		background: #f5f5f5;
 	}
 }
 .q-item:last-child {
