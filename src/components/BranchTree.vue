@@ -148,6 +148,7 @@ q-scroll-area.scroll
 					@add2="addCode(prop.node)"
 					@kill="killNode(prop.node)"
 					@edit="editNode(prop.node)")
+
 				q-btn(round dense flat icon="mdi-dots-vertical" @click.stop).hover
 					component(:is="TreeMenu"
 						:node="prop.node"
