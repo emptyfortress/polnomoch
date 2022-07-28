@@ -2,14 +2,9 @@
 import { ref, computed } from 'vue'
 import Drawer from '@/components/Drawer.vue'
 import RDrawer from '@/components/RDrawer.vue'
-// import IDrawer from '@/components/IDrawer.vue'
-// import KDrawer from '@/components/KDrawer.vue'
 import { date } from 'quasar'
 import { useColor } from '@/stores/colors'
 import SvgIcon from '@/components/SvgIcon.vue'
-// import { useInfo } from '@/stores/info'
-
-// const info = useInfo()
 
 const leftDrawer = ref(true)
 const rightDrawer = ref(false)
@@ -41,12 +36,6 @@ const calcClass = computed(() => {
 		return 'fill'
 	} else return ''
 })
-
-// const iconColor = computed(() => {
-// 	if (colors.toolbar) {
-// 		return 'white'
-// 	} else return '#666'
-// })
 
 const timeStamp = Date.now()
 const formattedString = date.formatDate(timeStamp, 'dddd, D MMMM')

@@ -8,12 +8,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@quasar/extras": "^1.14.0",
+    "@quasar/extras": "^1.15.0",
     "nanoid": "^3.3.4",
     "pinia": "^2.0.14",
-    "quasar": "^2.7.1",
+    "quasar": "^2.7.5",
     "vue": "^3.2.25",
     "vue-router": "^4.0.15",
+    "vue-word-highlighter": "^1.0.5",
     "vue3-click-away": "^1.2.4",
     "vuedraggable": "^4.1.0"
   },
@@ -24,7 +25,7 @@
     "fast-glob": "^3.2.11",
     "prettier": "^2.6.2",
     "pug": "^3.0.2",
-    "sass": "^1.32.0",
+    "sass": "^1.32.12",
     "tslib": "^2.4.0",
     "typescript": "^4.7.3",
     "vite": "^2.9.9",
