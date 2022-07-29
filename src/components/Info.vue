@@ -4,13 +4,45 @@ import { useInfo } from '@/stores/info'
 import SvgIcon from '@/components/SvgIcon.vue'
 
 const myinfo = useInfo()
+const editMode = ref(false)
+
+const morphGroupModel = ref('pencil')
+const nextMorphStep: any = {
+	pencil: 'close',
+	close: 'pencil',
+}
+const nextMorph = () => {
+	morphGroupModel.value = nextMorphStep[morphGroupModel.value]
+}
+const edit = () => {
+	editMode.value = true
+	nextMorph()
+}
+const cancel = () => {
+	editMode.value = false
+	nextMorph()
+}
 </script>
 
 <template lang="pug">
-q-card.q-ml-sm.rel.q-pa-md
+q-card(:class="{ edit : editMode}").mycard
 	transition(name="fade")
-		q-btn(round dense icon="mdi-pencil" color="primary" v-if="myinfo.currentItem.typ === 2").plus
+
+		q-btn(round dense
+			icon="mdi-pencil"
+			color="primary"
+			v-if="myinfo.currentItem.typ === 2"
+			v-morph:pencil:edit:500="morphGroupModel"
+			@click="edit").plus
+
 		q-btn(round dense icon="mdi-plus" color="primary" v-else).plus
+
+	q-btn(round dense
+		icon="mdi-close"
+		color="negative"
+		v-morph:close:edit:500="morphGroupModel"
+		@click="cancel").close
+
 	.zg
 		q-icon(name="mdi-bookshelf" v-if="myinfo.currentItem.id === '0'").some
 		component(:is="SvgIcon" :name="myinfo.currentItem.icon" v-else).icon
@@ -45,6 +77,15 @@ q-card.q-ml-sm.rel.q-pa-md
 
 <style scoped lang="scss">
 //@import '@/assets/css/colors.scss';
+.mycard {
+	margin-left: 0.5rem;
+	padding: 1rem;
+	position: relative;
+	border: 1px solid white;
+	&.edit {
+		border-color: red;
+	}
+}
 .zg {
 	font-size: 1.1rem;
 	// font-weight: bold;
@@ -68,5 +109,10 @@ q-card.q-ml-sm.rel.q-pa-md
 	position: absolute;
 	bottom: 0.5rem;
 	right: 0.5rem;
+}
+.close {
+	position: absolute;
+	bottom: 0.5rem;
+	left: 0.5rem;
 }
 </style>
