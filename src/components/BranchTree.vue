@@ -4,8 +4,9 @@ import SvgIcon from '@/components/SvgIcon.vue'
 import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
 import TreeMenu from '@/components/TreeMenu.vue'
-import type { Ref } from 'vue'
 import { uid, useQuasar } from 'quasar'
+import CreateCode from '@/components/CreateCode.vue'
+import type { Ref } from 'vue'
 
 const myinfo = useInfo()
 
@@ -50,6 +51,10 @@ const killNode = (e: Node) => {
 	} else {
 		myinfo.killNode(e.id)
 		myinfo.setSelected('0')
+		$q.notify({
+			message: 'Код удален.',
+			color: 'negative',
+		})
 	}
 }
 const $q = useQuasar()
@@ -84,18 +89,18 @@ const addSprav = () => {
 	myinfo.addSprav(temp)
 	myinfo.setSelected(temp.id)
 }
+
+const curr: Ref<Node | undefined> = ref()
 const addCode = (e: Node) => {
 	dialog1.value = true
-	console.log(e)
-	// let temp = {
-	// 	id: uid(),
-	// 	label: 'Новый справочник',
-	// 	icon: 'node-folder',
-	// 	typ: 1,
-	// 	children: [],
-	// }
-	// }
-	// myinfo.addCode(e, {})
+	curr.value = e
+}
+
+const save = (node: Node) => {
+	let id = '4'
+	myinfo.addCode(id, node)
+	myinfo.setSelected(node.id)
+	dialog1.value = false
 }
 
 onBeforeUpdate(() => {
@@ -143,7 +148,6 @@ q-scroll-area.scroll
 					q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
 				component(:is="TreeMenu"
 					:node="prop.node"
-					:context="true"
 					@add1="addSprav"
 					@add2="addCode(prop.node)"
 					@kill="killNode(prop.node)"
@@ -159,15 +163,7 @@ q-dialog(v-model="dialog" )
 			q-btn(label="Отмена" flat color="primary" v-close-popup)
 			q-btn(label="Удалить" flat color="primary" v-close-popup @click="kill1(current)")
 
-q-dialog(v-model="dialog1" )
-	q-card.create
-		.row.justify-between.items-center
-			.text-h6.q-mt-none Новый код полномочий
-			q-btn(flat round icon="mdi-close" v-close-popup)
-		p.q-mt-md Здесь будет форма создания
-		q-card-actions(align="right")
-			q-btn(label="Отмена" flat color="primary" v-close-popup)
-			q-btn(label="Добавить" flat color="primary" v-close-popup)
+CreateCode(:dialog1="dialog1" @cancel="dialog1 = false" @save="save")
 
 </template>
 
@@ -177,12 +173,6 @@ q-dialog(v-model="dialog1" )
 	padding-top: 0.5rem;
 	min-width: 400px;
 	border-top: 7px solid var(--q-negative);
-}
-.create {
-	padding: 1rem;
-	padding-top: 0.5rem;
-	min-width: 600px;
-	border-top: 7px solid var(--q-primary);
 }
 .input {
 	width: 200px;

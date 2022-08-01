@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 
 const props = defineProps<{
@@ -7,7 +8,6 @@ const props = defineProps<{
 		label: String
 		typ: Number
 	}
-	context: Boolean
 }>()
 
 const emit = defineEmits(['add1', 'add2', 'kill', 'edit', 'edit1'])
@@ -35,6 +35,7 @@ const add1 = () => {
 	emit('add1')
 }
 const add2 = () => {
+	confirmMode.value = false
 	emit('add2')
 }
 const kill = () => {
@@ -68,12 +69,13 @@ const menu = [
 		icon: 'mdi-reload',
 		className: calcClass(3),
 	},
-	{ id: 5, label: 'Удалить', icon: 'mdi-trash-can-outline', action: kill },
+	// { id: 5, label: 'Удалить', icon: 'mdi-trash-can-outline', action: kill },
 ]
+const confirmMode = ref(false)
 </script>
 
 <template lang="pug">
-q-menu(:context-menu="props.context")
+q-menu(context-menu)
 	q-list
 		q-item(v-for="item in menu" clickable v-close-popup :key="item.id" @click="action(item)" :class="item.className")
 			q-item-section(avatar)
@@ -81,6 +83,25 @@ q-menu(:context-menu="props.context")
 				q-icon(:name="item.icon" v-else)
 			q-item-section
 				q-item-label {{item.label}}
+
+		template(v-if="props.node.typ === 2")
+			q-item(clickable @click="confirmMode = !confirmMode" v-if="!confirmMode")
+				q-item-section(avatar)
+					q-icon(name="mdi-trash-can-outline")
+				q-item-section
+					q-item-label Удалить
+			q-item(clickable v-close-popup  v-else)
+				.confirm
+					q-btn(label="Отмена" flat color="primary" )
+					q-btn(label="Подтверждаю" flat color="negative" @click="kill")
+
+		template(v-if="props.node.typ === 1")
+			q-item(clickable @click="kill")
+				q-item-section(avatar)
+					q-icon(name="mdi-trash-can-outline")
+				q-item-section
+					q-item-label Удалить
+
 </template>
 
 <style scoped lang="scss">
@@ -101,5 +122,11 @@ q-menu(:context-menu="props.context")
 }
 .hid {
 	display: none;
+}
+.confirm {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 100%;
 }
 </style>
