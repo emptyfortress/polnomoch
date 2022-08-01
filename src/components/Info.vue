@@ -32,7 +32,7 @@ q-card(:class="{ edit : editMode}").mycard
 			icon="mdi-pencil"
 			color="primary"
 			v-if="myinfo.currentItem.typ === 2"
-			v-morph:pencil:edit:500="morphGroupModel"
+			v-morph:pencil:edit:300="morphGroupModel"
 			@click="edit").plus
 
 		q-btn(round dense icon="mdi-plus" color="primary" v-else).plus
@@ -40,13 +40,16 @@ q-card(:class="{ edit : editMode}").mycard
 	q-btn(round dense
 		icon="mdi-close"
 		color="negative"
-		v-morph:close:edit:500="morphGroupModel"
+		v-morph:close:edit:300="morphGroupModel"
 		@click="cancel").close
 
-	.zg
+	transition(name="fade")
+		q-btn(unelevated color="primary" label="Сохранить" v-if="editMode").save
+
+	.zg(:contenteditable="editMode" :class="{ editable : editMode}")
 		q-icon(name="mdi-bookshelf" v-if="myinfo.currentItem.id === '0'").some
 		component(:is="SvgIcon" :name="myinfo.currentItem.icon" v-else).icon
-		|{{myinfo.currentItem.label}}
+		span {{myinfo.currentItem.label}}
 
 	q-separator
 	br
@@ -88,8 +91,14 @@ q-card(:class="{ edit : editMode}").mycard
 }
 .zg {
 	font-size: 1.1rem;
-	// font-weight: bold;
 	margin-bottom: 1rem;
+	&.editable {
+		border-bottom: 1.5px dotted var(--q-primary);
+		background: var(--q-primary-selection);
+		&:focus {
+			outline: none;
+		}
+	}
 	.icon {
 		margin-right: 0.7rem;
 		margin-top: -7px;
@@ -114,5 +123,10 @@ q-card(:class="{ edit : editMode}").mycard
 	position: absolute;
 	bottom: 0.5rem;
 	left: 0.5rem;
+}
+.save {
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.5rem;
 }
 </style>
