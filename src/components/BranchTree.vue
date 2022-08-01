@@ -149,17 +149,6 @@ q-scroll-area.scroll
 					@kill="killNode(prop.node)"
 					@edit="editNode(prop.node)")
 
-				q-btn(round dense flat icon="mdi-dots-vertical" @click.stop).hover
-					component(:is="TreeMenu"
-						:node="prop.node"
-						:context="false"
-						anchor="bottom right"
-						self="top right"
-						@add1="addSprav"
-						@add2="addCode(prop.node)"
-						@kill="killNode(prop.node)"
-						@edit="editNode(prop.node)")
-
 q-dialog(v-model="dialog" )
 	q-card.kill
 		.row.justify-between.items-center
