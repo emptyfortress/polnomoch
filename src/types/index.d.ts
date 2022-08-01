@@ -5,4 +5,8 @@ interface Node {
 	icon: string
 	header?: string
 	children: Node[]
+	code: string
+	name: string
+	descr: string
+	doveritel: string
 }

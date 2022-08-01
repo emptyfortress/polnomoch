@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, reactive } from 'vue'
 import { useInfo } from '@/stores/info'
 import SvgIcon from '@/components/SvgIcon.vue'
 
@@ -19,6 +19,27 @@ const edit = () => {
 	nextMorph()
 }
 const cancel = () => {
+	editMode.value = false
+	nextMorph()
+	label.value.innerHTML = myinfo.currentItem!.label
+	code.value.innerHTML = myinfo.currentItem!.code
+	name.value.innerHTML = myinfo.currentItem!.name
+	descr.value.innerHTML = myinfo.currentItem!.descr
+	doveritel.value.innerHTML = myinfo.currentItem!.doveritel
+}
+
+const label = ref()
+const code = ref()
+const name = ref()
+const descr = ref()
+const doveritel = ref()
+
+const update = () => {
+	myinfo.currentItem!.label = label.value.innerHTML
+	myinfo.currentItem!.code = code.value.innerHTML
+	myinfo.currentItem!.name = name.value.innerHTML
+	myinfo.currentItem!.descr = descr.value.innerHTML
+	myinfo.currentItem!.doveritel = doveritel.value.innerHTML
 	editMode.value = false
 	nextMorph()
 }
@@ -44,12 +65,12 @@ q-card(:class="{ edit : editMode}").mycard
 		@click="cancel").close
 
 	transition(name="fade")
-		q-btn(unelevated color="primary" label="Сохранить" v-if="editMode").save
+		q-btn(unelevated color="primary" label="Сохранить" v-if="editMode" @click="update").save
 
 	.zg(:contenteditable="editMode" :class="{ editable : editMode}")
 		q-icon(name="mdi-bookshelf" v-if="myinfo.currentItem.id === '0'").some
 		component(:is="SvgIcon" :name="myinfo.currentItem.icon" v-else).icon
-		span {{myinfo.currentItem.label}}
+		span(ref="label") {{myinfo.currentItem.label}}
 
 	q-separator
 	br
@@ -63,15 +84,15 @@ q-card(:class="{ edit : editMode}").mycard
 				div Дата обновления:
 				div 21.03.2022
 		template(v-else)
-			.mygrid
+			.mygrid(:class="{ edit : editMode}")
 				div Код полномочия:
-				div CDDV_02
+				div(ref="code" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem.code}}
 				div Название полномочий:
-				div Подписание договоров от 100 т.руб.
+				div(ref="name" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem.name}}
 				div Описание:
-				div Подписание и отправка договоров от 100 т.руб.
+				div(ref="descr" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem.descr}}
 				div Доверитель:
-				div ООО "ДоксВижн"
+				div(ref="doveritel" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem?.doveritel}}
 				div Дата внесения:
 				div 21.05.2022
 				div Дата обновления:
@@ -92,13 +113,6 @@ q-card(:class="{ edit : editMode}").mycard
 .zg {
 	font-size: 1.1rem;
 	margin-bottom: 1rem;
-	&.editable {
-		border-bottom: 1.5px dotted var(--q-primary);
-		background: var(--q-primary-selection);
-		&:focus {
-			outline: none;
-		}
-	}
 	.icon {
 		margin-right: 0.7rem;
 		margin-top: -7px;
@@ -108,11 +122,22 @@ q-card(:class="{ edit : editMode}").mycard
 		margin-right: 0.5rem;
 	}
 }
+.editable {
+	border-bottom: 1.5px dotted var(--q-primary);
+	&:focus {
+		background: var(--q-primary-selection);
+		outline: none;
+	}
+}
 .mygrid {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	column-gap: 1rem;
 	row-gap: 0.5rem;
+	transition: 0.3s ease all;
+	&.edit {
+		row-gap: 1rem;
+	}
 }
 .plus {
 	position: absolute;
