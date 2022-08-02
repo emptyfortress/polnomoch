@@ -1,20 +1,104 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useInfo } from '@/stores/info'
 import SvgIcon from '@/components/SvgIcon.vue'
+import { uid } from 'quasar'
 
 const myinfo = useInfo()
+// const editMode = ref(false)
+
+const addCode = () => {
+	let node = {
+		id: uid(),
+		label: 'Новый код полномочий',
+		typ: 2,
+		icon: 'keychain',
+		name: '',
+		code: '',
+		doveritel: '',
+		descr: '',
+	}
+	myinfo.addCode(myinfo.currentItem?.id, node)
+	myinfo.setSelected(node.id)
+	morphGroupModel.value = 'close'
+	myinfo.setEditCode(true)
+}
+
+const morphGroupModel = ref('pencil')
+const nextMorphStep: any = {
+	pencil: 'close',
+	close: 'pencil',
+}
+const nextMorph = () => {
+	morphGroupModel.value = nextMorphStep[morphGroupModel.value]
+}
+
+watchEffect(() => {
+	if (myinfo.getMorf === 'close') {
+		morphGroupModel.value = 'close'
+	}
+})
+
+const edit = () => {
+	myinfo.setEditCode(true)
+	nextMorph()
+}
+const cancel = () => {
+	myinfo.setEditCode(false)
+	nextMorph()
+	label.value.innerHTML = myinfo.currentItem!.label
+	code.value.innerHTML = myinfo.currentItem!.code
+	name.value.innerHTML = myinfo.currentItem!.name
+	descr.value.innerHTML = myinfo.currentItem!.descr
+	doveritel.value.innerHTML = myinfo.currentItem!.doveritel
+	myinfo.setMorf(null)
+}
+
+const label = ref()
+const code = ref()
+const name = ref()
+const descr = ref()
+const doveritel = ref()
+
+const update = () => {
+	myinfo.currentItem!.label = label.value.innerHTML
+	myinfo.currentItem!.code = code.value.innerHTML
+	myinfo.currentItem!.name = name.value.innerHTML
+	myinfo.currentItem!.descr = descr.value.innerHTML
+	myinfo.currentItem!.doveritel = doveritel.value.innerHTML
+	myinfo.setEditCode(false)
+	// editMode.value = false
+	nextMorph()
+	myinfo.setMorf(null)
+}
 </script>
 
 <template lang="pug">
-q-card.q-ml-sm.rel.q-pa-md
+q-card(:class="{ edit : myinfo.editCode}").mycard
 	transition(name="fade")
-		q-btn(round dense icon="mdi-pencil" color="primary" v-if="myinfo.currentItem.typ === 2").plus
-		q-btn(round dense icon="mdi-plus" color="primary" v-else).plus
-	.zg
+
+		q-btn(round dense
+			icon="mdi-pencil"
+			color="primary"
+			v-if="myinfo.currentItem.typ === 2"
+			v-morph:pencil:edit:300="morphGroupModel"
+			@click="edit").plus
+
+		q-btn(round dense icon="mdi-plus" color="primary" v-else @click="addCode").plus
+
+	q-btn(round dense
+		icon="mdi-close"
+		color="negative"
+		v-morph:close:edit:300="morphGroupModel"
+		@click="cancel").close
+
+	transition(name="fade")
+		q-btn(unelevated color="primary" label="Сохранить" v-if="myinfo.editCode" @click="update").save
+
+	.zg(:contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}")
 		q-icon(name="mdi-bookshelf" v-if="myinfo.currentItem.id === '0'").some
 		component(:is="SvgIcon" :name="myinfo.currentItem.icon" v-else).icon
-		|{{myinfo.currentItem.label}}
+		span(ref="label") {{myinfo.currentItem.label}}
 
 	q-separator
 	br
@@ -28,15 +112,15 @@ q-card.q-ml-sm.rel.q-pa-md
 				div Дата обновления:
 				div 21.03.2022
 		template(v-else)
-			.mygrid
+			.mygrid(:class="{ edit : myinfo.editCode}")
 				div Код полномочия:
-				div CDDV_02
+				div(ref="code" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.code}}
 				div Название полномочий:
-				div Подписание договоров от 100 т.руб.
+				div(ref="name" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.name}}
 				div Описание:
-				div Подписание и отправка договоров от 100 т.руб.
+				div(ref="descr" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.descr}}
 				div Доверитель:
-				div ООО "ДоксВижн"
+				div(ref="doveritel" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem?.doveritel}}
 				div Дата внесения:
 				div 21.05.2022
 				div Дата обновления:
@@ -45,9 +129,17 @@ q-card.q-ml-sm.rel.q-pa-md
 
 <style scoped lang="scss">
 //@import '@/assets/css/colors.scss';
+.mycard {
+	margin-left: 0.5rem;
+	padding: 1rem;
+	position: relative;
+	border: 1px solid white;
+	&.edit {
+		border-color: red;
+	}
+}
 .zg {
 	font-size: 1.1rem;
-	// font-weight: bold;
 	margin-bottom: 1rem;
 	.icon {
 		margin-right: 0.7rem;
@@ -58,13 +150,34 @@ q-card.q-ml-sm.rel.q-pa-md
 		margin-right: 0.5rem;
 	}
 }
+.editable {
+	border-bottom: 1.5px dotted var(--q-primary);
+	&:focus {
+		background: var(--q-primary-selection);
+		outline: none;
+	}
+}
 .mygrid {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	column-gap: 1rem;
 	row-gap: 0.5rem;
+	transition: 0.3s ease all;
+	&.edit {
+		row-gap: 1rem;
+	}
 }
 .plus {
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.5rem;
+}
+.close {
+	position: absolute;
+	bottom: 0.5rem;
+	left: 0.5rem;
+}
+.save {
 	position: absolute;
 	bottom: 0.5rem;
 	right: 0.5rem;
