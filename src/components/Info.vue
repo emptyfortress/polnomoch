@@ -1,10 +1,28 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useInfo } from '@/stores/info'
 import SvgIcon from '@/components/SvgIcon.vue'
+import { uid } from 'quasar'
 
 const myinfo = useInfo()
-const editMode = ref(false)
+// const editMode = ref(false)
+
+const addCode = () => {
+	let node = {
+		id: uid(),
+		label: 'Новый код полномочий',
+		typ: 2,
+		icon: 'keychain',
+		name: '',
+		code: '',
+		doveritel: '',
+		descr: '',
+	}
+	myinfo.addCode(myinfo.currentItem?.id, node)
+	myinfo.setSelected(node.id)
+	morphGroupModel.value = 'close'
+	myinfo.setEditCode(true)
+}
 
 const morphGroupModel = ref('pencil')
 const nextMorphStep: any = {
@@ -14,18 +32,26 @@ const nextMorphStep: any = {
 const nextMorph = () => {
 	morphGroupModel.value = nextMorphStep[morphGroupModel.value]
 }
+
+watchEffect(() => {
+	if (myinfo.getMorf === 'close') {
+		morphGroupModel.value = 'close'
+	}
+})
+
 const edit = () => {
-	editMode.value = true
+	myinfo.setEditCode(true)
 	nextMorph()
 }
 const cancel = () => {
-	editMode.value = false
+	myinfo.setEditCode(false)
 	nextMorph()
 	label.value.innerHTML = myinfo.currentItem!.label
 	code.value.innerHTML = myinfo.currentItem!.code
 	name.value.innerHTML = myinfo.currentItem!.name
 	descr.value.innerHTML = myinfo.currentItem!.descr
 	doveritel.value.innerHTML = myinfo.currentItem!.doveritel
+	myinfo.setMorf(null)
 }
 
 const label = ref()
@@ -40,13 +66,15 @@ const update = () => {
 	myinfo.currentItem!.name = name.value.innerHTML
 	myinfo.currentItem!.descr = descr.value.innerHTML
 	myinfo.currentItem!.doveritel = doveritel.value.innerHTML
-	editMode.value = false
+	myinfo.setEditCode(false)
+	// editMode.value = false
 	nextMorph()
+	myinfo.setMorf(null)
 }
 </script>
 
 <template lang="pug">
-q-card(:class="{ edit : editMode}").mycard
+q-card(:class="{ edit : myinfo.editCode}").mycard
 	transition(name="fade")
 
 		q-btn(round dense
@@ -56,7 +84,7 @@ q-card(:class="{ edit : editMode}").mycard
 			v-morph:pencil:edit:300="morphGroupModel"
 			@click="edit").plus
 
-		q-btn(round dense icon="mdi-plus" color="primary" v-else).plus
+		q-btn(round dense icon="mdi-plus" color="primary" v-else @click="addCode").plus
 
 	q-btn(round dense
 		icon="mdi-close"
@@ -65,9 +93,9 @@ q-card(:class="{ edit : editMode}").mycard
 		@click="cancel").close
 
 	transition(name="fade")
-		q-btn(unelevated color="primary" label="Сохранить" v-if="editMode" @click="update").save
+		q-btn(unelevated color="primary" label="Сохранить" v-if="myinfo.editCode" @click="update").save
 
-	.zg(:contenteditable="editMode" :class="{ editable : editMode}")
+	.zg(:contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}")
 		q-icon(name="mdi-bookshelf" v-if="myinfo.currentItem.id === '0'").some
 		component(:is="SvgIcon" :name="myinfo.currentItem.icon" v-else).icon
 		span(ref="label") {{myinfo.currentItem.label}}
@@ -84,15 +112,15 @@ q-card(:class="{ edit : editMode}").mycard
 				div Дата обновления:
 				div 21.03.2022
 		template(v-else)
-			.mygrid(:class="{ edit : editMode}")
+			.mygrid(:class="{ edit : myinfo.editCode}")
 				div Код полномочия:
-				div(ref="code" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem.code}}
+				div(ref="code" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.code}}
 				div Название полномочий:
-				div(ref="name" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem.name}}
+				div(ref="name" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.name}}
 				div Описание:
-				div(ref="descr" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem.descr}}
+				div(ref="descr" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.descr}}
 				div Доверитель:
-				div(ref="doveritel" :contenteditable="editMode" :class="{ editable : editMode}") {{myinfo.currentItem?.doveritel}}
+				div(ref="doveritel" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem?.doveritel}}
 				div Дата внесения:
 				div 21.05.2022
 				div Дата обновления:

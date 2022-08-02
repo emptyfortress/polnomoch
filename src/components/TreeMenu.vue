@@ -19,6 +19,9 @@ const calcClass = (e: number) => {
 	if (props.node?.typ === 2 && e === 3) {
 		return 'hid'
 	}
+	if (props.node?.typ === 1 && e === 0) {
+		return 'hid'
+	}
 }
 
 const action = (item: any) => {
@@ -59,7 +62,7 @@ const menu = [
 	{
 		id: 1,
 		label: 'Добавить код полномочий',
-		icon: 'spravochnik',
+		icon: 'keychain',
 		action: add2,
 	},
 	{ id: 2, label: 'Редактировать', icon: 'mdi-pencil', action: edit },
@@ -72,10 +75,15 @@ const menu = [
 	// { id: 5, label: 'Удалить', icon: 'mdi-trash-can-outline', action: kill },
 ]
 const confirmMode = ref(false)
+const men = ref(false)
+const cancel = () => {
+	confirmMode.value = false
+	men.value = false
+}
 </script>
 
 <template lang="pug">
-q-menu(context-menu)
+q-menu(context-menu v-model="men")
 	q-list
 		q-item(v-for="item in menu" clickable v-close-popup :key="item.id" @click="action(item)" :class="item.className")
 			q-item-section(avatar)
@@ -92,7 +100,7 @@ q-menu(context-menu)
 					q-item-label Удалить
 			q-item(clickable v-close-popup  v-else)
 				.confirm
-					q-btn(label="Отмена" flat color="primary" )
+					q-btn(label="Отмена" flat color="primary" @click="cancel" v-close-popup)
 					q-btn(label="Подтверждаю" flat color="negative" @click="kill")
 
 		template(v-if="props.node.typ === 1")

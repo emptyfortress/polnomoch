@@ -33,6 +33,14 @@ const expandAll = () => {
 
 const editMode = ref(false)
 
+const editNode1 = (e: any) => {
+	myinfo.setSelected(e.id)
+	myinfo.setEditCode(true)
+	myinfo.setMorf('close')
+	// console.log(e.label)
+	// editMode.value = true
+}
+
 const editNode = async (e: any) => {
 	editMode.value = true
 	await nextTick(() => {
@@ -43,6 +51,10 @@ const editNode = async (e: any) => {
 const dialog = ref(false)
 const dialog1 = ref(false)
 
+const undo1 = (e: Node) => {
+	myinfo.addCode('4', e)
+	myinfo.setSelected(e.id)
+}
 const killNode = (e: Node) => {
 	if (e.typ === 1) {
 		current.value = e
@@ -54,6 +66,13 @@ const killNode = (e: Node) => {
 		$q.notify({
 			message: 'Код удален.',
 			color: 'negative',
+			actions: [
+				{
+					label: 'Вернуть',
+					color: 'white',
+					handler: () => undo1(e),
+				},
+			],
 		})
 	}
 }
@@ -151,6 +170,7 @@ q-scroll-area.scroll
 					@add1="addSprav"
 					@add2="addCode(prop.node)"
 					@kill="killNode(prop.node)"
+					@edit1="editNode1(prop.node)"
 					@edit="editNode(prop.node)")
 
 q-dialog(v-model="dialog" )

@@ -7,6 +7,8 @@ export const useInfo = defineStore({
 	state: () => ({
 		selected: '4',
 		confirmMode: false,
+		editCode: false,
+		morf: null,
 		nodes: [
 			{
 				id: '0',
@@ -14,162 +16,162 @@ export const useInfo = defineStore({
 				header: 'root',
 				typ: 0,
 				children: [
-					// {
-					// 	id: '1',
-					// 	icon: 'node-folder',
-					// 	label: 'ФНС (федеральная налоговая служба)',
-					// 	typ: 1,
-					// 	children: [
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_11 отклонение представляет собой',
-					// 		},
-					// 		{ id: uid(), typ: 2, icon: 'keychain', label: 'CPDV_12 вектор угловой скорости' },
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_13 явно видно по фазовой траектории',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_14 время набора максимальной скорости',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_15 согласно третьему закону Ньютона',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_16 преобразует периодический уход гироскопа',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			icon: 'keychain',
-					// 			typ: 2,
-					// 			label: 'CPDV_17 при малых значениях коэффициента податливости',
-					// 		},
-					// 		{ id: uid(), icon: 'keychain', label: 'CPDV_18 с постоянным ускорением' },
-					// 		{
-					// 			id: uid(),
-					// 			icon: 'keychain',
-					// 			typ: 2,
-					// 			label: 'CPDV_19 позволяет исключить из рассмотрения',
-					// 		},
-					// 	],
-					// },
-					// {
-					// 	id: '2',
-					// 	icon: 'node-folder',
-					// 	label: 'ФК (федеральное казначейство)',
-					// 	typ: 1,
-					// 	children: [
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_11 отклонение представляет собой',
-					// 		},
-					// 		{ id: uid(), typ: 2, icon: 'keychain', label: 'CPDV_12 вектор угловой скорости' },
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_13 явно видно по фазовой траектории',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_14 время набора максимальной скорости',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_15 согласно третьему закону Ньютона',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_16 преобразует периодический уход гироскопа',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			icon: 'keychain',
-					// 			typ: 2,
-					// 			label: 'CPDV_17 при малых значениях коэффициента податливости',
-					// 		},
-					// 		{ id: uid(), icon: 'keychain', label: 'CPDV_18 с постоянным ускорением' },
-					// 		{
-					// 			id: uid(),
-					// 			icon: 'keychain',
-					// 			typ: 2,
-					// 			label: 'CPDV_19 позволяет исключить из рассмотрения',
-					// 		},
-					// 	],
-					// },
-					// {
-					// 	id: '3',
-					// 	icon: 'node-folder',
-					// 	label: 'МинЦифры (министерство цифрового развития)',
-					// 	typ: 1,
-					// 	children: [
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_11 отклонение представляет собой',
-					// 		},
-					// 		{ id: uid(), typ: 2, icon: 'keychain', label: 'CPDV_12 вектор угловой скорости' },
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_13 явно видно по фазовой траектории',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_14 время набора максимальной скорости',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_15 согласно третьему закону Ньютона',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			typ: 2,
-					// 			icon: 'keychain',
-					// 			label: 'CPDV_16 преобразует периодический уход гироскопа',
-					// 		},
-					// 		{
-					// 			id: uid(),
-					// 			icon: 'keychain',
-					// 			typ: 2,
-					// 			label: 'CPDV_17 при малых значениях коэффициента податливости',
-					// 		},
-					// 		{ id: uid(), icon: 'keychain', label: 'CPDV_18 с постоянным ускорением' },
-					// 		{
-					// 			id: uid(),
-					// 			icon: 'keychain',
-					// 			typ: 2,
-					// 			label: 'CPDV_19 позволяет исключить из рассмотрения',
-					// 		},
-					// 	],
-					// },
+					{
+						id: '1',
+						icon: 'node-folder',
+						label: 'ФНС (федеральная налоговая служба)',
+						typ: 1,
+						children: [
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_11 отклонение представляет собой',
+							},
+							{ id: uid(), typ: 2, icon: 'keychain', label: 'CPDV_12 вектор угловой скорости' },
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_13 явно видно по фазовой траектории',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_14 время набора максимальной скорости',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_15 согласно третьему закону Ньютона',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_16 преобразует периодический уход гироскопа',
+							},
+							{
+								id: uid(),
+								icon: 'keychain',
+								typ: 2,
+								label: 'CPDV_17 при малых значениях коэффициента податливости',
+							},
+							{ id: uid(), icon: 'keychain', label: 'CPDV_18 с постоянным ускорением' },
+							{
+								id: uid(),
+								icon: 'keychain',
+								typ: 2,
+								label: 'CPDV_19 позволяет исключить из рассмотрения',
+							},
+						],
+					},
+					{
+						id: '2',
+						icon: 'node-folder',
+						label: 'ФК (федеральное казначейство)',
+						typ: 1,
+						children: [
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_11 отклонение представляет собой',
+							},
+							{ id: uid(), typ: 2, icon: 'keychain', label: 'CPDV_12 вектор угловой скорости' },
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_13 явно видно по фазовой траектории',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_14 время набора максимальной скорости',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_15 согласно третьему закону Ньютона',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_16 преобразует периодический уход гироскопа',
+							},
+							{
+								id: uid(),
+								icon: 'keychain',
+								typ: 2,
+								label: 'CPDV_17 при малых значениях коэффициента податливости',
+							},
+							{ id: uid(), icon: 'keychain', label: 'CPDV_18 с постоянным ускорением' },
+							{
+								id: uid(),
+								icon: 'keychain',
+								typ: 2,
+								label: 'CPDV_19 позволяет исключить из рассмотрения',
+							},
+						],
+					},
+					{
+						id: '3',
+						icon: 'node-folder',
+						label: 'МинЦифры (министерство цифрового развития)',
+						typ: 1,
+						children: [
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_11 отклонение представляет собой',
+							},
+							{ id: uid(), typ: 2, icon: 'keychain', label: 'CPDV_12 вектор угловой скорости' },
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_13 явно видно по фазовой траектории',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_14 время набора максимальной скорости',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_15 согласно третьему закону Ньютона',
+							},
+							{
+								id: uid(),
+								typ: 2,
+								icon: 'keychain',
+								label: 'CPDV_16 преобразует периодический уход гироскопа',
+							},
+							{
+								id: uid(),
+								icon: 'keychain',
+								typ: 2,
+								label: 'CPDV_17 при малых значениях коэффициента податливости',
+							},
+							{ id: uid(), icon: 'keychain', label: 'CPDV_18 с постоянным ускорением' },
+							{
+								id: uid(),
+								icon: 'keychain',
+								typ: 2,
+								label: 'CPDV_19 позволяет исключить из рассмотрения',
+							},
+						],
+					},
 					{
 						id: '4',
 						icon: 'node-folder',
@@ -276,14 +278,15 @@ export const useInfo = defineStore({
 		currentItem: (state) => {
 			return getNodeFromTree(state.nodes[0], state.selected)
 		},
+		getMorf: (state) => {
+			return state.morf
+		},
 	},
 	actions: {
 		addSprav(payload) {
 			this.nodes[0].children.push(payload)
 		},
 		addCode(id, node) {
-			console.log(id)
-			console.log(node)
 			insertNodeIntoTree(this.nodes[0], id, node)
 		},
 		killNode(id) {
@@ -297,6 +300,15 @@ export const useInfo = defineStore({
 		},
 		toggleConfirm() {
 			this.confirmMode = !this.confirmMode
+		},
+		toggleEditCode() {
+			this.editCode = !this.editCode
+		},
+		setEditCode(payload) {
+			this.editCode = payload
+		},
+		setMorf(payload) {
+			this.morf = payload
 		},
 	},
 })
