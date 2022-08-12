@@ -114,12 +114,6 @@ q-menu(context-menu v-model="men")
 
 <style scoped lang="scss">
 //@import '@/assets/css/colors.scss';
-.q-item {
-	cursor: pointer;
-	&:hover {
-		background: #f5f5f5;
-	}
-}
 .q-item:last-child {
 	border-top: 1px solid #ccc;
 	color: darkred;
