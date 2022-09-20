@@ -14,7 +14,7 @@ const expanded = ref(['0', '4'])
 const filter = ref('')
 const input = ref()
 const tree = ref()
-const edit = ref(false)
+// const edit = ref(false)
 const node: Ref<any[]> = ref([])
 const current = ref()
 
@@ -33,18 +33,18 @@ const expandAll = () => {
 
 const editMode = ref(false)
 
-const editNode1 = (e: any) => {
-	myinfo.setSelected(e.id)
-	myinfo.setEditCode(true)
-	myinfo.setMorf('close')
-}
+// const editNode1 = (e: any) => {
+// 	myinfo.setSelected(e.id)
+// 	myinfo.setEditCode(true)
+// 	myinfo.setMorf('close')
+// }
 
-const editNode = async (e: any) => {
-	editMode.value = true
-	await nextTick(() => {
-		node.value[e.id as any].show()
-	})
-}
+// const editNode = async (e: any) => {
+// 	editMode.value = true
+// 	await nextTick(() => {
+// 		node.value[e.id as any].show()
+// 	})
+// }
 
 const dialog = ref(false)
 const dialog1 = ref(false)

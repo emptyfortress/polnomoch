@@ -10,7 +10,7 @@ const props = defineProps<{
 	}
 }>()
 
-const emit = defineEmits(['add1', 'add2', 'kill', 'edit1'])
+const emit = defineEmits(['add1', 'add2', 'kill'])
 
 const calcClass = (e: number) => {
 	if (props.node?.typ === 2 && e === 0) {
@@ -27,9 +27,6 @@ const calcClass = (e: number) => {
 const action = (item: any) => {
 	if (item.id === 3) {
 		return
-	}
-	if (props.node.typ === 2 && item.id === 2) {
-		return edit1()
 	}
 	return item.action()
 }
