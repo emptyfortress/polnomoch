@@ -54,6 +54,9 @@ const save = () => {
 		doveritel: doveritel.value,
 	}
 	emit('save', temp)
+	name.value = ''
+	code.value = ''
+	descr.value = ''
 }
 </script>
 

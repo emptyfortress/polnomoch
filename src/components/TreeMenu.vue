@@ -10,7 +10,7 @@ const props = defineProps<{
 	}
 }>()
 
-const emit = defineEmits(['add1', 'add2', 'kill', 'edit', 'edit1'])
+const emit = defineEmits(['add1', 'add2', 'kill', 'edit1'])
 
 const calcClass = (e: number) => {
 	if (props.node?.typ === 2 && e === 0) {
@@ -44,12 +44,12 @@ const add2 = () => {
 const kill = () => {
 	emit('kill')
 }
-const edit = () => {
-	emit('edit')
-}
-const edit1 = () => {
-	emit('edit1')
-}
+// const edit = () => {
+// 	emit('edit')
+// }
+// const edit1 = () => {
+// 	emit('edit1')
+// }
 
 const menu = [
 	{
@@ -65,7 +65,7 @@ const menu = [
 		icon: 'keychain',
 		action: add2,
 	},
-	{ id: 2, label: 'Редактировать', icon: 'mdi-pencil', action: edit },
+	// { id: 2, label: 'Редактировать', icon: 'mdi-pencil', action: edit },
 	{
 		id: 3,
 		label: 'Синхронизировать',

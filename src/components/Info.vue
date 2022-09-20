@@ -2,26 +2,22 @@
 import { ref, watchEffect } from 'vue'
 import { useInfo } from '@/stores/info'
 import SvgIcon from '@/components/SvgIcon.vue'
-import { uid } from 'quasar'
+import CreateCode from '@/components/CreateCode.vue'
 
 const myinfo = useInfo()
 // const editMode = ref(false)
 
+const dialog1 = ref(false)
+
 const addCode = () => {
-	let node = {
-		id: uid(),
-		label: 'Новый код полномочий',
-		typ: 2,
-		icon: 'keychain',
-		name: '',
-		code: '',
-		doveritel: '',
-		descr: '',
-	}
-	myinfo.addCode(myinfo.currentItem?.id, node)
+	dialog1.value = true
+}
+
+const save = (node: Node) => {
+	let id = '4'
+	myinfo.addCode(id, node)
 	myinfo.setSelected(node.id)
-	morphGroupModel.value = 'close'
-	myinfo.setEditCode(true)
+	dialog1.value = false
 }
 
 const morphGroupModel = ref('pencil')
@@ -75,16 +71,14 @@ const update = () => {
 
 <template lang="pug">
 q-card(:class="{ edit : myinfo.editCode}").mycard
-	transition(name="fade")
 
-		q-btn(round dense
-			icon="mdi-pencil"
-			color="primary"
-			v-if="myinfo.currentItem.typ === 2"
-			v-morph:pencil:edit:300="morphGroupModel"
-			@click="edit").plus
+	q-btn(round dense
+		icon="mdi-pencil"
+		color="primary"
+		v-morph:pencil:edit:300="morphGroupModel"
+		@click="edit").plus1
 
-		q-btn(round dense icon="mdi-plus" color="primary" v-else @click="addCode").plus
+	q-btn(round dense icon="mdi-plus" color="primary" @click="addCode").plus
 
 	q-btn(round dense
 		icon="mdi-close"
@@ -103,7 +97,9 @@ q-card(:class="{ edit : myinfo.editCode}").mycard
 	q-separator
 	br
 	transition(name="slide-top")
-		template(v-if="myinfo.currentItem.typ === 1")
+		template(v-if="myinfo.currentItem.typ === 0")
+			p Список всех справочников
+		template(v-else-if="myinfo.currentItem.typ === 1")
 			.mygrid
 				div Код справочника:
 				div PDDV_02
@@ -125,10 +121,11 @@ q-card(:class="{ edit : myinfo.editCode}").mycard
 				div 21.05.2022
 				div Дата обновления:
 				div 01.07.2022
+
+	CreateCode(:dialog1="dialog1" @cancel="dialog1 = false" @save="save")
 </template>
 
 <style scoped lang="scss">
-//@import '@/assets/css/colors.scss';
 .mycard {
 	margin-left: 0.5rem;
 	padding: 1rem;
@@ -166,6 +163,11 @@ q-card(:class="{ edit : myinfo.editCode}").mycard
 	&.edit {
 		row-gap: 1rem;
 	}
+}
+.plus1 {
+	position: absolute;
+	bottom: 0.5rem;
+	right: 3rem;
 }
 .plus {
 	position: absolute;

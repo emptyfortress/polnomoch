@@ -37,8 +37,6 @@ const editNode1 = (e: any) => {
 	myinfo.setSelected(e.id)
 	myinfo.setEditCode(true)
 	myinfo.setMorf('close')
-	// console.log(e.label)
-	// editMode.value = true
 }
 
 const editNode = async (e: any) => {
@@ -169,9 +167,7 @@ q-scroll-area.scroll
 					:node="prop.node"
 					@add1="addSprav"
 					@add2="addCode(prop.node)"
-					@kill="killNode(prop.node)"
-					@edit1="editNode1(prop.node)"
-					@edit="editNode(prop.node)")
+					@kill="killNode(prop.node)")
 
 q-dialog(v-model="dialog" )
 	q-card.kill
