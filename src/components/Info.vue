@@ -42,11 +42,16 @@ const edit = () => {
 const cancel = () => {
 	myinfo.setEditCode(false)
 	nextMorph()
-	label.value.innerHTML = myinfo.currentItem!.label
-	code.value.innerHTML = myinfo.currentItem!.code
-	name.value.innerHTML = myinfo.currentItem!.name
-	descr.value.innerHTML = myinfo.currentItem!.descr
-	doveritel.value.innerHTML = myinfo.currentItem!.doveritel
+	if (myinfo.currentItem!.typ === 1) {
+		cod.value.innerHTML = myinfo.currentItem!.cod
+		label.value.innerHTML = myinfo.currentItem!.label
+	} else {
+		label.value.innerHTML = myinfo.currentItem!.label
+		code.value.innerHTML = myinfo.currentItem!.code
+		name.value.innerHTML = myinfo.currentItem!.name
+		descr.value.innerHTML = myinfo.currentItem!.descr
+		doveritel.value.innerHTML = myinfo.currentItem!.doveritel
+	}
 	myinfo.setMorf(null)
 }
 
@@ -55,13 +60,18 @@ const code = ref()
 const name = ref()
 const descr = ref()
 const doveritel = ref()
+const cod = ref()
+const comp = ref()
 
 const update = () => {
-	myinfo.currentItem!.label = label.value.innerHTML
-	myinfo.currentItem!.code = code.value.innerHTML
-	myinfo.currentItem!.name = name.value.innerHTML
-	myinfo.currentItem!.descr = descr.value.innerHTML
-	myinfo.currentItem!.doveritel = doveritel.value.innerHTML
+	// myinfo.currentItem!.label = label.value.innerHTML
+	// myinfo.currentItem!.code = code.value.innerHTML
+	// myinfo.currentItem!.name = name.value.innerHTML
+	// myinfo.currentItem!.descr = descr.value.innerHTML
+	// myinfo.currentItem!.doveritel = doveritel.value.innerHTML
+	// myinfo.currentItem!.spr = spr.value.innerHTML
+	// myinfo.currentItem!.comp = comp.value.innerHTML
+	// myinfo.currentItem!.date = date.value.innerHTML
 	myinfo.setEditCode(false)
 	// editMode.value = false
 	nextMorph()
@@ -100,13 +110,14 @@ q-card(:class="{ edit : myinfo.editCode}").mycard
 		template(v-if="myinfo.currentItem.typ === 0")
 			p Список всех справочников
 		template(v-else-if="myinfo.currentItem.typ === 1")
-			.mygrid
+			.mygrid(:class="{ edit : myinfo.editCode}")
 				div Код справочника:
-				div PDDV_02
+				div(ref="cod" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.cod}}
 				div Составитель:
-				div ООО "ДоксВижн"
+				div(ref="label" :contenteditable="myinfo.editCode" :class="{ editable : myinfo.editCode}") {{myinfo.currentItem.label}}
 				div Дата обновления:
-				div 21.03.2022
+				div 22.08.2022
+
 		template(v-else)
 			.mygrid(:class="{ edit : myinfo.editCode}")
 				div Код полномочия:
