@@ -2,14 +2,9 @@
 import { ref, computed } from 'vue'
 import Drawer from '@/components/Drawer.vue'
 import RDrawer from '@/components/RDrawer.vue'
-// import IDrawer from '@/components/IDrawer.vue'
-// import KDrawer from '@/components/KDrawer.vue'
 import { date } from 'quasar'
 import { useColor } from '@/stores/colors'
 import SvgIcon from '@/components/SvgIcon.vue'
-// import { useInfo } from '@/stores/info'
-
-// const info = useInfo()
 
 const leftDrawer = ref(true)
 const rightDrawer = ref(false)
@@ -42,12 +37,6 @@ const calcClass = computed(() => {
 	} else return ''
 })
 
-// const iconColor = computed(() => {
-// 	if (colors.toolbar) {
-// 		return 'white'
-// 	} else return '#666'
-// })
-
 const timeStamp = Date.now()
 const formattedString = date.formatDate(timeStamp, 'dddd, D MMMM')
 </script>
@@ -79,14 +68,14 @@ const formattedString = date.formatDate(timeStamp, 'dddd, D MMMM')
 				.right
 					q-btn(unelevated icon="mdi-plus" color="primary-darken-2") Создать
 					q-btn(unelevated)
-						SvgIcon(name="search-scan")
+						SvgIcon(name="search-scan" color="#fff")
 
 		Drawer(:show="leftDrawer" @toggle="toggleLeftDrawer")
 		RDrawer(:show="rightDrawer")
 
 		q-page-container
-			router-view
-			//- //- router-view(v-slot="{ Component, route }")
+			//- router-view
+			router-view(v-slot="{ Component, route }")
 				transition(name="fade")
 					component(:is="Component")
 

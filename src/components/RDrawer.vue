@@ -28,11 +28,11 @@ import Color from '@/components/Color.vue'
 
 export default {
 	props: ['show'],
-	components: { Color, },
+	components: { Color },
 	setup(props) {
 		const dark = ref(false)
 		const toolbar = ref(false)
-		const panel = ref(false)
+		const panel = ref(true)
 		const $q = useQuasar()
 		const color = useColor()
 		const size = ref(14)

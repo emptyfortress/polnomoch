@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Card from '@/pages/Card.vue'
+import Home from '@/pages/Home.vue'
 // import Home from '@/pages/Home.vue'
 
 declare module 'vue-router' {
@@ -18,16 +18,18 @@ export const router = createRouter({
 	routes: [
 		{
 			path: '/',
-			redirect: '/power',
+			component: Home,
+			meta: { transition: 'slide-left', title: 'Гипотеза', requiresAuth: false },
+			// redirect: '/power',
 		},
 		{
-			path: '/power',
-			component: Card,
-			meta: { transition: 'slide-left', title: 'Коды полномочий', requiresAuth: false },
+			path: '/inbox',
+			component: () => import('@/components/Inbox.vue'),
+			meta: { transition: 'slide-left', title: 'Входящие документы', requiresAuth: false },
 		},
 		{
 			path: '/:pathMatch(.*)*',
-			redirect: '/power',
+			redirect: '/',
 		},
 	],
 })

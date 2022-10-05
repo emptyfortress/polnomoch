@@ -22,9 +22,21 @@ export default {
 		const pages = [
 			{
 				id: 0,
-				title: 'Коды полномочий',
-				icon: 'mdi-book-open-page-variant-outline',
-				url: '/power',
+				title: 'Старт',
+				icon: 'mdi-home-roof',
+				url: '/',
+			},
+			{
+				id: 1,
+				title: 'Входящие документы',
+				icon: 'mdi-folder-outline',
+				url: '/inbox',
+			},
+			{
+				id: 2,
+				title: 'Служебные записки',
+				icon: 'mdi-folder-outline',
+				url: '/notes',
 			},
 		]
 		const width = 256
@@ -72,7 +84,7 @@ export default {
 }
 .q-item--active,
 .q-item.q-router-link--active {
-	background: var(--q-selection);
+	background: var(--q-primary-darken-2);
 	color: var(--q-primary-darken-2);
 }
 </style>

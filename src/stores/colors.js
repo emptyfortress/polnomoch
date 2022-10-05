@@ -3,8 +3,8 @@ import { defineStore } from 'pinia'
 export const useColor = defineStore({
 	id: 'color',
 	state: () => ({
-		toolbar: false,
-		panel: false,
+		toolbar: true,
+		panel: true,
 		reveal: false,
 		mini: false,
 	}),
