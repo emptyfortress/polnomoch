@@ -21,12 +21,12 @@
 
 				q-th(v-for="col in props.cols" :props="props" :key="col.name").hov
 					span {{ col.label }}
-					span(v-if="usefilter")
+					span
 						q-icon(name="mdi-filter" color="negative" v-if="showFilt(col)" @click.stop="clearFilter(col)").filt
 						q-icon(name="mdi-filter-outline" @click.stop="toggleFilter(col.id)" v-if="!showFilt(col)").sort
 
 					transition(name="slide-top")
-						Filter(v-if="usefilter" :filterByIndex="filterByIndex" :col="col" @close="filterByIndex = null" :data="colData(col)" :datum="col.datum")
+						Filter(:filterByIndex="filterByIndex" :col="col" @close="filterByIndex = null" :data="colData(col)" :datum="col.datum")
 
 		template(v-slot:top).gt-sm
 			Toolbar(:total="total" :shown="shown" @readAll="readAll" @toggleLoad="loading = !loading")
@@ -41,11 +41,11 @@
 				q-td(auto-width)
 					q-checkbox(v-model="props.row.selected" :val="props.row.id")
 				q-td(v-for="col in props.cols" :key="col.name" :class="col.classname") {{ props.row[col.name] }}
-		//- template(v-slot:bottom v-if="selectedArray.length")
-		//- 	.zaglushka
-	//- transition(name="sliding")
-	//- 	.total(v-if="selectedArray.length")
-	//- 		Total(:selected="selectedArray.length" @clear="clearSelected")
+		template(v-slot:bottom v-if="selectedArray.length")
+			.zaglushka
+	transition(name="sliding")
+		.total(v-if="selectedArray.length")
+			Total(:selected="selectedArray.length" @clear="clearSelected")
 
 </template>
 
@@ -56,6 +56,7 @@ import Total from '@/components/common/Total.vue'
 import Filter from '@/components/common/Filter.vue'
 import { useGrid } from '@/stores/grid'
 import anime from 'animejs'
+import type { Ref } from 'vue'
 
 const props = defineProps<{
 	columns: Column[]
@@ -64,9 +65,6 @@ const props = defineProps<{
 	colData: Function
 	total: Number
 	toolbar: Boolean
-	bordered: Boolean
-	wrap: Boolean
-	usefilter: Boolean
 }>()
 
 // const props = defineProps({
@@ -118,20 +116,24 @@ const clearSelected = () => {
 	all.value = false
 }
 
-// const items = reactive(props.rows)
+interface Checked {
+	col: string
+	id: number
+	items: String[]
+}
 const items = computed(() => {
 	if (grid.checked.length) {
-		let filter = {}
+		let filter = {} as any
 		let temp = Object.values(grid.checked)
-		for (let el of temp) {
+		for (let el of temp as any) {
 			filter[el.col] = el.items
 		}
 
-		return props.rows.filter((item) => {
+		return props.rows.filter((item: any) => {
 			for (let [key, value] of Object.entries(filter)) {
-				const cool = (element) => element === item[key]
+				const cool = (element: any) => element === item[key]
 				if (item[key] === undefined) return false
-				if (!value.some(cool)) return false
+				if (value instanceof Array && !value.some(cool)) return false
 			}
 			return true
 		})
@@ -160,22 +162,25 @@ const readAll = () => {
 	items.value.map((row) => (row.unread = false))
 }
 
-const filterByIndex = ref(null)
+const filterByIndex: Ref<null | number> = ref(null)
 
-const clearFilter = (col) => {
+const clearFilter = (col: Column) => {
 	grid.clearCheckedColumn(col)
 }
-const toggleFilter = (e) => {
+const toggleFilter = (e: number) => {
 	filterByIndex.value === e ? (filterByIndex.value = null) : (filterByIndex.value = e)
 }
-const showFilt = (col) => {
+const showFilt = (col: Column) => {
 	if (grid.checked.length) {
-		let ids = grid.checked.map((item) => item.id)
-		let id = (el) => el === col.id
+		let ids = grid.checked.map((item: Checked) => item.id)
+		let id = (el: number) => el === col.id
 		return ids.some(id)
 	}
 	return false
 }
+const selectedArray = computed(() => {
+	return items.value.filter((item) => item.selected)
+})
 </script>
 
 <style scoped lang="scss">

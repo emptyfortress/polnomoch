@@ -2,11 +2,11 @@
 q-page(padding)
 	.container
 		.zag Входящие документы
-		.gridtotal()
+		.gridtotal(:class="{ full : grid.fullscreen }")
 			.sidebar(v-if="grid.sidebar").flex.flex-center
 				p aggregateData
 			.main(:class="{ 'fill' : !grid.sidebar }")
-				GridTable(:columns="columns" usefilter :colData="colData" :rows="rows" :total="items.length" :shown="rows.length" toolbar @sort="sort")
+				GridTable(:columns="columns" :colData="colData" :rows="rows" :total="items.length" :shown="rows.length" toolbar @sort="sort")
 
 </template>
 
@@ -19,7 +19,6 @@ import { useGrid } from '@/stores/grid'
 const grid = useGrid()
 
 const rows = reactive(items)
-const loading = ref(false)
 
 provide('filteredRows', rows)
 
@@ -27,8 +26,8 @@ const selected = computed(() => {
 	return rows.filter((item) => item.selected === true)
 })
 
-const colData = (col: any) => {
-	return [...new Set(rows.map((item) => item[col.name]))]
+const colData = (col: Column) => {
+	return [...new Set(rows.map((item: any) => item[col.name]))]
 }
 
 const sorted = ref(false)
