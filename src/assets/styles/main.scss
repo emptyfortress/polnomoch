@@ -11,7 +11,7 @@ body {
 	padding-left: 1rem;
 	padding-right: 1rem;
 	// padding-bottom: 2rem;
-	@media screen and (max-width: 1900px) {
+	@media screen and (max-width: 1800px) {
 		max-width: 1200px;
 		margin: 0 auto;
 	}
@@ -228,7 +228,7 @@ a:hover:not(.q-link) {
 	}
 }
 .fixhd {
-	height: calc(100vh - 160px);
+	height: calc(100vh - 210px);
 	overflow: hidden;
 	font-size: var(--my-body-font-size);
 	thead th {
