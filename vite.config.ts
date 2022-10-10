@@ -6,9 +6,9 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	server: {
-		port: 3500
-	},
+	// server: {
+	// 	port: 3500
+	// },
 	plugins: [
 		vue({
 			template: {

@@ -67,13 +67,6 @@ const props = defineProps<{
 	toolbar: Boolean
 }>()
 
-// const props = defineProps({
-//   foo: {
-// 		type: String,
-// 		default: 'test'
-// 	}
-// })
-
 const pagination = {
 	page: 1,
 	rowsPerPage: 0,

@@ -2,19 +2,22 @@
 q-page(padding)
 	.container
 		.zag Входящие документы
+		p {{colData1('regdate')}}
+		component(:is="Filter3" :colData="colData1(0)")
 		.gridtotal(:class="{ full : grid.fullscreen }")
 			.sidebar(v-if="grid.sidebar").flex.flex-center
 				p aggregateData
 			.main(:class="{ 'fill' : !grid.sidebar }")
-				GridTable(:columns="columns" :colData="colData" :rows="rows" :total="items.length" :shown="rows.length" toolbar @sort="sort")
+				component(:is="GridTable" :columns="columns" :colData="colData" :rows="rows" :total="items.length" :shown="rows.length" toolbar @sort="sort")
 
 </template>
 
 <script setup lang="ts">
 import { ref, computed, reactive, provide } from 'vue'
 import { columns, items } from '@/stores/data'
-import GridTable from '@/components/common/GridTable.vue'
 import { useGrid } from '@/stores/grid'
+import GridTable from '@/components/common/GridTable.vue'
+import Filter3 from '@/components/common/Filter3.vue'
 
 const grid = useGrid()
 
@@ -28,6 +31,9 @@ const selected = computed(() => {
 
 const colData = (col: Column) => {
 	return [...new Set(rows.map((item: any) => item[col.name]))]
+}
+const colData1 = (name: string) => {
+	return [...new Set(rows.map((item: any) => item[name]))]
 }
 
 const sorted = ref(false)

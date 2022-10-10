@@ -198,7 +198,7 @@ const items = [
 	{
 		id: 3,
 		unread: true,
-		selected: true,
+		selected: false,
 		vid: 'Входящая корреспонденция по BCC',
 		regnumber: 27355,
 		regdate: '28.10.2021 15:56',

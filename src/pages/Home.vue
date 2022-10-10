@@ -1,10 +1,11 @@
 <template lang="pug">
 q-page(padding).flex.flex-center
 	q-card
-		q-card-section
-			h6.q-my-none Гипотеза Вовы Степанова
-		q-card-section Несколько слов про гипотезу.
-		q-card-section Выберите папку в панели слева.
+		q-card-section.text-center
+			h6.q-my-none Для начала работы выберите папку слева.
+			q-icon(name="mdi-hand-pointing-left" size="48px")
+		//- q-card-section Несколько слов про гипотезу.
+		//- q-card-section Выберите папку в панели слева.
 </template>
 
 <script>
