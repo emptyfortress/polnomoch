@@ -40,9 +40,9 @@
 				q-td(key="read" :class="unreadClass(props.row)" @click="toggle(props.row.id)").small
 				q-td(auto-width)
 					q-checkbox(v-model="props.row.selected" :val="props.row.id")
-				q-td(v-for="col in props.cols" :key="col.name" :class="col.classname") {{ props.row[col.name] }}
-		template(v-slot:bottom v-if="selectedArray.length")
-			.zaglushka
+				q-td(v-for="col in props.cols" :key="col.name" :class="col.classes") {{ props.row[col.name] }}
+		//- template(v-slot:bottom v-if="selectedArray.length")
+		//- 	.zaglushka
 	transition(name="sliding")
 		.total(v-if="selectedArray.length")
 			Total(:selected="selectedArray.length" @clear="clearSelected")
@@ -91,7 +91,7 @@ const toggleSel = () => {
 
 const itemTable = ref()
 
-const loading = ref(true)
+const loading = ref(false)
 
 const rowClass = (row: Row) => {
 	if (row.unread && row.selected) return 'both'
@@ -114,6 +114,11 @@ interface Checked {
 	id: number
 	items: String[]
 }
+
+// const tempItems = computed(() => {
+// 	return props.rows.filter((item) => item.regdate.slice(0, 4) === '2021')
+// })
+
 const items = computed(() => {
 	if (grid.checked.length) {
 		let filter = {} as any
@@ -131,20 +136,21 @@ const items = computed(() => {
 			return true
 		})
 	}
+	// return tempItems.value
 	return props.rows
 })
 
-onMounted(() => {
-	setTimeout(() => {
-		loading.value = !loading.value
-	}, 1500)
-	anime({
-		targets: '.rowslide',
-		translateY: [30, 0],
-		opacity: [0, 1],
-		delay: anime.stagger(120, { start: 1000, easing: 'easeInQuad' }),
-	})
-})
+// onMounted(() => {
+// 	setTimeout(() => {
+// 		loading.value = !loading.value
+// 	}, 1500)
+// 	anime({
+// 		targets: '.rowslide',
+// 		translateY: [30, 0],
+// 		opacity: [0, 1],
+// 		delay: anime.stagger(120, { start: 1000, easing: 'easeInQuad' }),
+// 	})
+// })
 
 const unreadClass = (e: Row) => {
 	if (e.unread === true) {

@@ -248,6 +248,9 @@ a:hover:not(.q-link) {
 	tbody td {
 		font-size: 0.9rem;
 		white-space: normal;
+		&.nowrap {
+			white-space: nowrap;
+		}
 	}
 	body.body--dark & {
 		thead tr th {

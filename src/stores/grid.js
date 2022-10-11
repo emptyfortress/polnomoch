@@ -13,10 +13,17 @@ export const useGrid = defineStore({
 		selected: false,
 		aggregat: false,
 		loading: true,
+		regDate: 'сентябрь',
+		sender: 'ПАО "Сургутнефтегаз"',
+		gip: 'Журавлев А.Н.',
+		proekt: '4120',
 	}),
 	getters: {},
 
 	actions: {
+		setRegDate(payload) {
+			this.reDate = payload
+		},
 		loadingOn() {
 			this.loading = true
 		},
