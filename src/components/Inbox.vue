@@ -2,19 +2,17 @@
 q-page(padding)
 	.container
 		.zag Входящие документы
-		//- p {{colData1('sender')}}
-		//- p {{items1.length}} - {{items.length}}
 		component(:is="Filter3" :sender="colData1('sender')" :gip="colData1('gip')" :proekt="colData1('proekt')")
 		.gridtotal(:class="{ full : grid.fullscreen }")
 			.sidebar(v-if="grid.sidebar").flex.flex-center
 				p aggregateData
 			.main(:class="{ 'fill' : !grid.sidebar }")
-				component(:is="GridTable" :columns="columns" :colData="colData" :rows="rows" :total="items.length" :shown="rows.length" toolbar @sort="sort")
+				component(:is="GridTable" :columns="columns" :colData="colData" :rows="frows" :total="items.length" :shown="frows.length" toolbar @sort="sort")
 
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { columns, items } from '@/stores/data'
 import { useGrid } from '@/stores/grid'
 import GridTable from '@/components/common/GridTable.vue'
@@ -22,7 +20,41 @@ import Filter3 from '@/components/common/Filter3.vue'
 
 const grid = useGrid()
 
-const rows = reactive(items)
+// const rows = reactive(items)
+function dateFilter(item: Row) {
+	return item.regdate.includes(grid.filt1)
+}
+function senderFilter(item: Row) {
+	if (grid.sender === 'Все') {
+		return true
+	}
+	return item.sender.includes(grid.sender)
+}
+function gipFilter(item: Row) {
+	if (grid.gip === 'Все') {
+		return true
+	}
+	return item.gip.includes(grid.gip)
+}
+function proektFilter(item: Row) {
+	if (grid.proekt === 'Все') {
+		return true
+	}
+	return item.proekt.includes(grid.proekt)
+}
+
+const frows = computed(() => {
+	if (
+		grid.regDate === 'Все' &&
+		grid.sender === 'Все' &&
+		grid.gip === 'Все' &&
+		grid.proekt === 'Все'
+	) {
+		return items
+	} else {
+		return items.filter(dateFilter).filter(senderFilter).filter(gipFilter).filter(proektFilter)
+	}
+})
 
 // provide('filteredRows', rows)
 
@@ -31,12 +63,12 @@ const rows = reactive(items)
 // })
 
 const colData = (col: Column) => {
-	let temp = rows.filter((e) => e.regdate.includes(grid.filt1))
+	let temp = frows.value.filter((e) => e.regdate.includes(grid.filt1))
 	return [...new Set(temp.map((item: any) => item[col.name]))]
 }
 
 const colData1 = (col: any) => {
-	return [...new Set(rows.map((item: any) => item[col]))]
+	return [...new Set(frows.value.map((item: any) => item[col]))]
 }
 
 const sorted = ref(false)
@@ -51,10 +83,10 @@ const sort = () => {
 		return 0
 	}
 	if (!sorted.value) {
-		rows.sort(compare)
+		frows.value.sort(compare)
 		sorted.value = !sorted.value
 	} else {
-		rows.reverse()
+		frows.value.reverse()
 		sorted.value = !sorted.value
 	}
 }

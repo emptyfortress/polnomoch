@@ -14,9 +14,9 @@ export const useGrid = defineStore({
 		aggregat: false,
 		loading: true,
 		regDate: 'сентябрь',
-		sender: 'ПАО "Сургутнефтегаз"',
-		gip: 'Журавлев А.Н.',
-		proekt: '4120',
+		sender: 'Все',
+		gip: 'Все',
+		proekt: 'Все',
 	}),
 	getters: {
 		filt1() {

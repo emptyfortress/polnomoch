@@ -8,23 +8,23 @@ div
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Организация-отправитель:
-			q-select(dense bg-color="blue-3" filled  v-model="mystore.sender" :options="props.sender").sel
+			q-select(dense bg-color="blue-3" filled  v-model="mystore.sender" :options="sender").sel
 				template(v-slot:append)
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label ГИП:
-			q-select(dense bg-color="blue-3" filled  v-model="mystore.gip" :options="props.gip").sel
+			q-select(dense bg-color="blue-3" filled  v-model="mystore.gip" :options="gip").sel
 				template(v-slot:append)
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Проект:
-			q-select(dense bg-color="blue-3" filled  v-model="mystore.proekt" :options="props.proekt").sel
+			q-select(dense bg-color="blue-3" filled  v-model="mystore.proekt" :options="proekt").sel
 				template(v-slot:append)
 					q-icon(name="mdi-filter" color="negative")
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { computed } from 'vue'
 import { useGrid } from '@/stores/grid'
 
 const props = defineProps<{
@@ -35,8 +35,17 @@ const props = defineProps<{
 
 const mystore = useGrid()
 
+const sender = computed(() => {
+	return ['Все', ...props.sender]
+})
+const gip = computed(() => {
+	return ['Все', ...props.gip]
+})
+const proekt = computed(() => {
+	return ['Все', ...props.proekt]
+})
 const options1 = [
-	'все',
+	'Все',
 	'сентябрь',
 	'август',
 	'июль',

@@ -41,8 +41,8 @@
 				q-td(auto-width)
 					q-checkbox(v-model="props.row.selected" :val="props.row.id")
 				q-td(v-for="col in props.cols" :key="col.name" :class="col.classes") {{ props.row[col.name] }}
-		//- template(v-slot:bottom v-if="selectedArray.length")
-		//- 	.zaglushka
+		template(v-slot:bottom v-if="selectedArray.length")
+			.zaglushka
 	transition(name="sliding")
 		.total(v-if="selectedArray.length")
 			Total(:selected="selectedArray.length" @clear="clearSelected")
@@ -116,10 +116,6 @@ interface Checked {
 }
 
 const items = computed(() => {
-	let tt = props.rows.filter((item: Row) => {
-		return item.regdate.includes(grid.filt1)
-	})
-
 	if (grid.checked.length) {
 		let filter = {} as any
 		let temp = Object.values(grid.checked)
@@ -127,7 +123,7 @@ const items = computed(() => {
 			filter[el.col] = el.items
 		}
 
-		return tt.filter((item: any) => {
+		return props.rows.filter((item: any) => {
 			for (let [key, value] of Object.entries(filter)) {
 				const cool = (element: any) => element === item[key]
 				if (item[key] === undefined) return false
@@ -136,9 +132,7 @@ const items = computed(() => {
 			return true
 		})
 	}
-	// return tempItems.value
-	// return props.rows
-	return tt
+	return props.rows
 })
 
 // onMounted(() => {
