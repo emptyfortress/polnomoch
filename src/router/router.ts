@@ -28,6 +28,11 @@ export const router = createRouter({
 			meta: { transition: 'slide-left', title: 'Входящие документы', requiresAuth: false },
 		},
 		{
+			path: '/notes',
+			component: () => import('@/components/Notes.vue'),
+			meta: { transition: 'slide-left', title: 'Служебные записки', requiresAuth: false },
+		},
+		{
 			path: '/:pathMatch(.*)*',
 			redirect: '/',
 		},

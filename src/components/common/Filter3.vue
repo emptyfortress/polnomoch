@@ -3,23 +3,23 @@ div
 	.filters
 		div
 			.label Дата регистрации:
-			q-select(dense bg-color="blue-3" filled  v-model="mystore.regDate" :options="options1").sel
-				template(v-slot:append)
+			q-select(dense bg-color="blue-3" filled  v-model="grid.regDate" :options="options1").sel
+				template(v-slot:append v-if="grid.regDate !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Организация-отправитель:
-			q-select(dense bg-color="blue-3" filled  v-model="mystore.sender" :options="sender").sel
-				template(v-slot:append)
+			q-select(dense bg-color="blue-3" filled  v-model="grid.sender" :options="sender").sel
+				template(v-slot:append v-if="grid.sender !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label ГИП:
-			q-select(dense bg-color="blue-3" filled  v-model="mystore.gip" :options="gip").sel
-				template(v-slot:append)
+			q-select(dense bg-color="blue-3" filled  v-model="grid.gip" :options="gip").sel
+				template(v-slot:append v-if="grid.gip !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Проект:
-			q-select(dense bg-color="blue-3" filled  v-model="mystore.proekt" :options="proekt").sel
-				template(v-slot:append)
+			q-select(dense bg-color="blue-3" filled  v-model="grid.proekt" :options="proekt").sel
+				template(v-slot:append v-if="grid.proekt !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 </template>
 
@@ -33,7 +33,7 @@ const props = defineProps<{
 	proekt: String[]
 }>()
 
-const mystore = useGrid()
+const grid = useGrid()
 
 const sender = computed(() => {
 	return ['Все', ...props.sender]
