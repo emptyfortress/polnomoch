@@ -1,25 +1,26 @@
 <template lang="pug">
-.filters
-	div
-		.label Дата регистрации:
-		q-select(dense bg-color="blue-3" filled  v-model="mystore.regDate" :options="options1").sel
-			template(v-slot:append)
-				q-icon(name="mdi-filter" color="negative")
-	div
-		.label Организация-отправитель:
-		q-select(dense bg-color="blue-3" filled  v-model="mystore.sender" :options="options1").sel
-			template(v-slot:append)
-				q-icon(name="mdi-filter" color="negative")
-	div
-		.label ГИП:
-		q-select(dense bg-color="blue-3" filled  v-model="model1" :options="options1").sel
-			template(v-slot:append)
-				q-icon(name="mdi-filter" color="negative")
-	div
-		.label Проект:
-		q-select(dense bg-color="blue-3" filled  v-model="model1" :options="options1").sel
-			template(v-slot:append)
-				q-icon(name="mdi-filter" color="negative")
+div
+	.filters
+		div
+			.label Дата регистрации:
+			q-select(dense bg-color="blue-3" filled  v-model="mystore.regDate" :options="options1").sel
+				template(v-slot:append)
+					q-icon(name="mdi-filter" color="negative")
+		div
+			.label Организация-отправитель:
+			q-select(dense bg-color="blue-3" filled  v-model="mystore.sender" :options="props.sender").sel
+				template(v-slot:append)
+					q-icon(name="mdi-filter" color="negative")
+		div
+			.label ГИП:
+			q-select(dense bg-color="blue-3" filled  v-model="mystore.gip" :options="props.gip").sel
+				template(v-slot:append)
+					q-icon(name="mdi-filter" color="negative")
+		div
+			.label Проект:
+			q-select(dense bg-color="blue-3" filled  v-model="mystore.proekt" :options="props.proekt").sel
+				template(v-slot:append)
+					q-icon(name="mdi-filter" color="negative")
 </template>
 
 <script setup lang="ts">
@@ -27,15 +28,15 @@ import { ref, reactive } from 'vue'
 import { useGrid } from '@/stores/grid'
 
 const props = defineProps<{
-	fil1: String[]
-	fil2: String[]
-	fil3: String[]
+	sender: String[]
+	gip: String[]
+	proekt: String[]
 }>()
 
 const mystore = useGrid()
 
-const model1 = ref('сентябрь')
 const options1 = [
+	'все',
 	'сентябрь',
 	'август',
 	'июль',

@@ -29,7 +29,7 @@
 						Filter(:filterByIndex="filterByIndex" :col="col" @close="filterByIndex = null" :data="colData(col)" :datum="col.datum")
 
 		template(v-slot:top).gt-sm
-			Toolbar(:total="total" :shown="shown" @readAll="readAll" @toggleLoad="loading = !loading")
+			Toolbar(:total="total" :shown="items.length" @readAll="readAll" @toggleLoad="loading = !loading")
 
 		template(v-slot:loading)
 			.ld
@@ -115,11 +115,11 @@ interface Checked {
 	items: String[]
 }
 
-// const tempItems = computed(() => {
-// 	return props.rows.filter((item) => item.regdate.slice(0, 4) === '2021')
-// })
-
 const items = computed(() => {
+	let tt = props.rows.filter((item: Row) => {
+		return item.regdate.includes(grid.filt1)
+	})
+
 	if (grid.checked.length) {
 		let filter = {} as any
 		let temp = Object.values(grid.checked)
@@ -127,7 +127,7 @@ const items = computed(() => {
 			filter[el.col] = el.items
 		}
 
-		return props.rows.filter((item: any) => {
+		return tt.filter((item: any) => {
 			for (let [key, value] of Object.entries(filter)) {
 				const cool = (element: any) => element === item[key]
 				if (item[key] === undefined) return false
@@ -137,7 +137,8 @@ const items = computed(() => {
 		})
 	}
 	// return tempItems.value
-	return props.rows
+	// return props.rows
+	return tt
 })
 
 // onMounted(() => {

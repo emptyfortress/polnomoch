@@ -18,7 +18,31 @@ export const useGrid = defineStore({
 		gip: 'Журавлев А.Н.',
 		proekt: '4120',
 	}),
-	getters: {},
+	getters: {
+		filt1() {
+			if (this.regDate === 'сентябрь') {
+				return '2022-09'
+			} else if (this.regDate === 'август') {
+				return '2022-08'
+			} else if (this.regDate === 'июль') {
+				return '2022-07'
+			} else if (this.regDate === 'июнь') {
+				return '2022-06'
+			} else if (this.regDate === 'май') {
+				return '2022-05'
+			} else if (this.regDate === 'апрель') {
+				return '2022-04'
+			} else if (this.regDate === 'март') {
+				return '2022-03'
+			} else if (this.regDate === 'февраль') {
+				return '2022-02'
+			} else if (this.regDate === 'январь') {
+				return '2022-01'
+			} else if (this.regDate === 'Прошлый год') {
+				return '2021'
+			} else return ''
+		},
+	},
 
 	actions: {
 		setRegDate(payload) {

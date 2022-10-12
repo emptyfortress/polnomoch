@@ -2,8 +2,9 @@
 q-page(padding)
 	.container
 		.zag Входящие документы
-		p {{colData1('regdate')}}
-		component(:is="Filter3" :colData="colData1(0)")
+		//- p {{colData1('sender')}}
+		//- p {{items1.length}} - {{items.length}}
+		component(:is="Filter3" :sender="colData1('sender')" :gip="colData1('gip')" :proekt="colData1('proekt')")
 		.gridtotal(:class="{ full : grid.fullscreen }")
 			.sidebar(v-if="grid.sidebar").flex.flex-center
 				p aggregateData
@@ -13,7 +14,7 @@ q-page(padding)
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, provide } from 'vue'
+import { ref, reactive } from 'vue'
 import { columns, items } from '@/stores/data'
 import { useGrid } from '@/stores/grid'
 import GridTable from '@/components/common/GridTable.vue'
@@ -23,17 +24,19 @@ const grid = useGrid()
 
 const rows = reactive(items)
 
-provide('filteredRows', rows)
+// provide('filteredRows', rows)
 
-const selected = computed(() => {
-	return rows.filter((item) => item.selected === true)
-})
+// const selected = computed(() => {
+// 	return rows.filter((item) => item.selected === true)
+// })
 
 const colData = (col: Column) => {
-	return [...new Set(rows.map((item: any) => item[col.name]))]
+	let temp = rows.filter((e) => e.regdate.includes(grid.filt1))
+	return [...new Set(temp.map((item: any) => item[col.name]))]
 }
-const colData1 = (name: string) => {
-	return [...new Set(rows.map((item: any) => item[name]))]
+
+const colData1 = (col: any) => {
+	return [...new Set(rows.map((item: any) => item[col]))]
 }
 
 const sorted = ref(false)
