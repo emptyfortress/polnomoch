@@ -63,3 +63,24 @@ interface Row {
 	needotvet: string
 	notfinished: string
 }
+interface Row1 {
+	id: number
+	unread: boolean
+	selected: boolean
+	vid: string
+	regnum: string
+	regdate1: string
+	theme: string
+	author: string
+	department: string
+	prednum: string
+	state: string
+	to: string
+	notfinished: string
+	due: string
+	gip: string
+	proekt: string
+	doctype: string
+	comments: string
+	created: string
+}

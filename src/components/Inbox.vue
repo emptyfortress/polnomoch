@@ -20,7 +20,7 @@ import Filter3 from '@/components/common/Filter3.vue'
 
 const grid = useGrid()
 
-// const rows = reactive(items)
+const rows = reactive(items)
 function dateFilter(item: Row) {
 	return item.regdate.includes(grid.filt1)
 }
@@ -50,9 +50,9 @@ const frows = computed(() => {
 		grid.gip === 'Все' &&
 		grid.proekt === 'Все'
 	) {
-		return items
+		return rows
 	} else {
-		return items.filter(dateFilter).filter(senderFilter).filter(gipFilter).filter(proektFilter)
+		return rows.filter(dateFilter).filter(senderFilter).filter(gipFilter).filter(proektFilter)
 	}
 })
 

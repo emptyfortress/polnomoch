@@ -3,7 +3,7 @@ div
 	.filters
 		div
 			.label Дата регистрации:
-			q-select(dense bg-color="blue-3" filled  v-model="grid.regDate" :options="options1").sel
+			q-select(dense bg-color="blue-3" filled  v-model="grid.regDate" :options="grid.options").sel
 				template(v-slot:append v-if="grid.regDate !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
