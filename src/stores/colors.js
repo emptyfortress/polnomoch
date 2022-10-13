@@ -7,7 +7,12 @@ export const useColor = defineStore({
 		panel: true,
 		reveal: false,
 		mini: false,
+		info: false,
 	}),
 	getters: {},
-	actions: {},
+	actions: {
+		toggleInfo() {
+			this.info = !this.info
+		},
+	},
 })

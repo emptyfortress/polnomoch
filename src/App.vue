@@ -56,7 +56,7 @@ const formattedString = date.formatDate(timeStamp, 'dddd, D MMMM')
 					q-avatar
 						img(src="@/assets/img/users/user0.svg")
 						.mybadge
-				q-btn(dense flat round icon="mdi-help-circle-outline").q-ml-sm
+				q-btn(dense flat round icon="mdi-help-circle-outline" @click="colors.toggleInfo").q-ml-sm
 				q-btn(dense flat round icon="mdi-brightness-4" @click="toggleRightDrawer").q-mx-sm
 
 			.subbar.gt-sm
