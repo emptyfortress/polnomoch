@@ -93,7 +93,6 @@ const sort = () => {
 </script>
 
 <style scoped lang="scss">
-//@import '@/assets/css/colors.scss';
 .gridtotal {
 	display: grid;
 	grid-template-columns: 260px auto;
