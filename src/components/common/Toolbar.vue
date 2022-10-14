@@ -11,7 +11,7 @@
 			.total(v-else) Показано:
 				span {{ shown }}
 				span.iz ({{ total }})
-				q-btn(unelevated size="12px" @click="showAll").q-ml-sm Показать все
+				//- q-btn(unelevated size="12px" @click="showAll").q-ml-sm Показать все
 	.center
 		q-btn-group(unelevated).group
 			q-btn(:flat="grid.lenta" dense color="btn-group" icon="mdi-table" size="10px" @click="grid.showGrid")
@@ -97,9 +97,7 @@ export default {
 		}
 
 		const showAll = () => {
-			let list = document.querySelectorAll(
-				'.reset > .q-checkbox__inner--truthy'
-			)
+			let list = document.querySelectorAll('.reset > .q-checkbox__inner--truthy')
 			list.forEach((el) => {
 				el.classList.remove('q-checkbox__inner--truthy')
 				el.classList.add('q-checkbox__inner--falsy')
