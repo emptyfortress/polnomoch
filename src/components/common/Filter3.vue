@@ -50,8 +50,7 @@ watchEffect(() => {
 		grid.sender = 'Все'
 		grid.gip = 'Все'
 		grid.proekt = 'Все'
-	}
-	if (grid.sender !== 'Все') {
+	} else if (grid.sender !== 'Все') {
 		grid.regDate = 'Все'
 		grid.gip = 'Все'
 		grid.proekt = 'Все'

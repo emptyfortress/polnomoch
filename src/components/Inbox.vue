@@ -44,17 +44,27 @@ function proektFilter(item: Row) {
 }
 
 const frows = computed(() => {
-	if (
-		grid.regDate === 'Все' &&
-		grid.sender === 'Все' &&
-		grid.gip === 'Все' &&
-		grid.proekt === 'Все'
-	) {
-		return rows
-	} else {
-		return rows.filter(dateFilter).filter(senderFilter).filter(gipFilter).filter(proektFilter)
+	if (grid.regDate !== 'Все') {
+		return rows.filter((item) => item.regdate.includes(grid.filt1))
 	}
+	if (grid.sender !== 'Все') {
+		return rows.filter((item) => item.sender.includes(grid.sender))
+	}
+	return rows
 })
+
+// const frows = computed(() => {
+// 	if (
+// 		grid.regDate === 'Все' &&
+// 		grid.sender === 'Все' &&
+// 		grid.gip === 'Все' &&
+// 		grid.proekt === 'Все'
+// 	) {
+// 		return rows
+// 	} else {
+// 		return rows.filter(dateFilter).filter(senderFilter).filter(gipFilter).filter(proektFilter)
+// 	}
+// })
 
 const colData = (col: Column) => {
 	let temp = frows.value.filter((e) => e.regdate.includes(grid.filt1))

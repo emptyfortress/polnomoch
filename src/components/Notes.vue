@@ -23,34 +23,35 @@ const rows = reactive(notes)
 function dateFilter(item: Row1) {
 	return item.regdate1.includes(grid.filt2)
 }
-function authorFilter(item: Row1) {
-	if (grid.author === 'Все') {
-		return true
-	}
-	return item.author.includes(grid.author)
-}
-function departmentFilter(item: Row1) {
-	if (grid.department === 'Все') {
-		return true
-	}
-	return item.department.includes(grid.department)
-}
-function toFilter(item: Row1) {
-	if (grid.to === 'Все') {
-		return true
-	}
-	return item.to.includes(grid.to)
-}
+// function authorFilter(item: Row1) {
+// 	if (grid.author === 'Все') {
+// 		return true
+// 	}
+// 	return item.author.includes(grid.author)
+// }
+// function departmentFilter(item: Row1) {
+// 	if (grid.department === 'Все') {
+// 		return true
+// 	}
+// 	return item.department.includes(grid.department)
+// }
+// function toFilter(item: Row1) {
+// 	if (grid.to === 'Все') {
+// 		return true
+// 	}
+// 	return item.to.includes(grid.to)
+// }
 const frows = computed(() => {
 	if (
-		grid.regDate1 === 'Все' &&
-		grid.author === 'Все' &&
-		grid.department === 'Все' &&
-		grid.to === 'Все'
+		grid.regDate1 === 'Все'
+		// grid.author === 'Все' &&
+		// grid.department === 'Все' &&
+		// grid.to === 'Все'
 	) {
 		return rows
 	} else {
-		return rows.filter(dateFilter).filter(authorFilter).filter(departmentFilter).filter(toFilter)
+		return rows.filter(dateFilter)
+		// .filter(authorFilter).filter(departmentFilter).filter(toFilter)
 	}
 })
 
