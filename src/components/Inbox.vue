@@ -45,26 +45,19 @@ function proektFilter(item: Row) {
 
 const frows = computed(() => {
 	if (grid.regDate !== 'Все') {
-		return rows.filter((item) => item.regdate.includes(grid.filt1))
+		return rows.filter(dateFilter)
 	}
 	if (grid.sender !== 'Все') {
-		return rows.filter((item) => item.sender.includes(grid.sender))
+		return rows.filter(senderFilter)
+	}
+	if (grid.gip !== 'Все') {
+		return rows.filter(gipFilter)
+	}
+	if (grid.proekt !== 'Все') {
+		return rows.filter(proektFilter)
 	}
 	return rows
 })
-
-// const frows = computed(() => {
-// 	if (
-// 		grid.regDate === 'Все' &&
-// 		grid.sender === 'Все' &&
-// 		grid.gip === 'Все' &&
-// 		grid.proekt === 'Все'
-// 	) {
-// 		return rows
-// 	} else {
-// 		return rows.filter(dateFilter).filter(senderFilter).filter(gipFilter).filter(proektFilter)
-// 	}
-// })
 
 const colData = (col: Column) => {
 	let temp = frows.value.filter((e) => e.regdate.includes(grid.filt1))
@@ -72,7 +65,7 @@ const colData = (col: Column) => {
 }
 
 const colData1 = (col: any) => {
-	return [...new Set(frows.value.map((item: any) => item[col]))]
+	return [...new Set(rows.map((item: any) => item[col]))]
 }
 
 const sorted = ref(false)

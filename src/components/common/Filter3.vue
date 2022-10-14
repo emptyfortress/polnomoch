@@ -3,28 +3,28 @@ div
 	.filters
 		div
 			.label Дата регистрации:
-			q-select(dense bg-color="blue-3" filled  v-model="grid.regDate" :options="grid.options").sel
+			q-select(dense bg-color="blue-3" filled  :model-value="grid.regDate" @update:model-value="update1" :options="grid.options").sel
 				template(v-slot:append v-if="grid.regDate !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Организация-отправитель:
-			q-select(dense bg-color="blue-3" filled  v-model="grid.sender" :options="sender").sel
+			q-select(dense bg-color="blue-3" filled :model-value="grid.sender" @update:model-value="update2"  :options="sender").sel
 				template(v-slot:append v-if="grid.sender !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label ГИП:
-			q-select(dense bg-color="blue-3" filled  v-model="grid.gip" :options="gip").sel
+			q-select(dense bg-color="blue-3" filled  :model-value="grid.gip" @update:model-value="update3"  :options="gip").sel
 				template(v-slot:append v-if="grid.gip !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Проект:
-			q-select(dense bg-color="blue-3" filled  v-model="grid.proekt" :options="proekt").sel
+			q-select(dense bg-color="blue-3" filled  :model-value="grid.proekt" @update:model-value="update4"  :options="proekt").sel
 				template(v-slot:append v-if="grid.proekt !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 </template>
 
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { useGrid } from '@/stores/grid'
 
 const props = defineProps<{
@@ -45,17 +45,38 @@ const proekt = computed(() => {
 	return ['Все', ...props.proekt]
 })
 
-watchEffect(() => {
-	if (grid.regDate !== 'Все') {
+const update1 = (e: string) => {
+	if (e !== 'Все') {
 		grid.sender = 'Все'
 		grid.gip = 'Все'
 		grid.proekt = 'Все'
-	} else if (grid.sender !== 'Все') {
-		grid.regDate = 'Все'
+		grid.regDate = e
+	}
+}
+const update2 = (e: string) => {
+	if (e !== 'Все') {
 		grid.gip = 'Все'
 		grid.proekt = 'Все'
+		grid.regDate = 'Все'
+		grid.sender = e
 	}
-})
+}
+const update3 = (e: string) => {
+	if (e !== 'Все') {
+		grid.proekt = 'Все'
+		grid.regDate = 'Все'
+		grid.sender = 'Все'
+		grid.gip = e
+	}
+}
+const update4 = (e: string) => {
+	if (e !== 'Все') {
+		grid.regDate = 'Все'
+		grid.sender = 'Все'
+		grid.gip = 'Все'
+		grid.proekt = e
+	}
+}
 </script>
 
 <style scoped lang="scss">
