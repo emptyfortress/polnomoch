@@ -3,22 +3,22 @@ div
 	.filters
 		div
 			.label Дата регистрации:
-			q-select(dense bg-color="blue-3" filled  :model-value="grid.regDate" @update:model-value="update1" :options="grid.options").sel
+			q-select(dense filled  :model-value="grid.regDate" @update:model-value="update1" :options="grid.options" :class="{ blue : grid.regDate !== 'Все'}").sel
 				template(v-slot:append v-if="grid.regDate !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Организация-отправитель:
-			q-select(dense bg-color="blue-3" filled :model-value="grid.sender" @update:model-value="update2"  :options="sender").sel
+			q-select(dense filled :model-value="grid.sender" @update:model-value="update2"  :options="sender" :class="{ blue : grid.sender !== 'Все'}").sel
 				template(v-slot:append v-if="grid.sender !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label ГИП:
-			q-select(dense bg-color="blue-3" filled  :model-value="grid.gip" @update:model-value="update3"  :options="gip").sel
+			q-select(dense filled  :model-value="grid.gip" @update:model-value="update3"  :options="gip" :class="{ blue : grid.gip !== 'Все'}").sel
 				template(v-slot:append v-if="grid.gip !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 		div
 			.label Проект:
-			q-select(dense bg-color="blue-3" filled  :model-value="grid.proekt" @update:model-value="update4"  :options="proekt").sel
+			q-select(dense filled  :model-value="grid.proekt" @update:model-value="update4"  :options="proekt" :class="{ blue : grid.proekt !== 'Все'}").sel
 				template(v-slot:append v-if="grid.proekt !== 'Все'")
 					q-icon(name="mdi-filter" color="negative")
 </template>
@@ -89,5 +89,8 @@ const update4 = (e: string) => {
 }
 .sel {
 	width: 250px;
+}
+.blue {
+	background: $blue-3;
 }
 </style>
