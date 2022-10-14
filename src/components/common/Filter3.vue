@@ -24,7 +24,7 @@ div
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { useGrid } from '@/stores/grid'
 
 const props = defineProps<{
@@ -44,19 +44,19 @@ const gip = computed(() => {
 const proekt = computed(() => {
 	return ['Все', ...props.proekt]
 })
-const options1 = [
-	'Все',
-	'сентябрь',
-	'август',
-	'июль',
-	'июнь',
-	'май',
-	'апрель',
-	'март',
-	'февраль',
-	'январь',
-	'Прошлый год',
-]
+
+watchEffect(() => {
+	if (grid.regDate !== 'Все') {
+		grid.sender = 'Все'
+		grid.gip = 'Все'
+		grid.proekt = 'Все'
+	}
+	if (grid.sender !== 'Все') {
+		grid.regDate = 'Все'
+		grid.gip = 'Все'
+		grid.proekt = 'Все'
+	}
+})
 </script>
 
 <style scoped lang="scss">

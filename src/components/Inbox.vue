@@ -56,12 +56,6 @@ const frows = computed(() => {
 	}
 })
 
-// provide('filteredRows', rows)
-
-// const selected = computed(() => {
-// 	return rows.filter((item) => item.selected === true)
-// })
-
 const colData = (col: Column) => {
 	let temp = frows.value.filter((e) => e.regdate.includes(grid.filt1))
 	return [...new Set(temp.map((item: any) => item[col.name]))]

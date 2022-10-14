@@ -18,9 +18,9 @@ export const useGrid = defineStore({
 		sender: 'Все',
 		gip: 'Все',
 		proekt: 'Все',
-		author: 'Все',
-		department: 'Все',
-		to: 'Все',
+		// author: 'Все',
+		// department: 'Все',
+		// to: 'Все',
 		options: [
 			'Все',
 			'сентябрь',

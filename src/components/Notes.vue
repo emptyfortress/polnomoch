@@ -2,7 +2,7 @@
 q-page(padding)
 	.container
 		.zag Служебные записки
-		component(:is="Filter4" :author="colData1('author')" :department="colData1('department')" :to="colData1('to')")
+		component(:is="Filter4")
 		.gridtotal(:class="{ full : grid.fullscreen }")
 			.sidebar(v-if="grid.sidebar").flex.flex-center
 				p aggregateData
@@ -18,7 +18,6 @@ import { useGrid } from '@/stores/grid'
 import Filter4 from '@/components/common/Filter4.vue'
 
 const grid = useGrid()
-
 const rows = reactive(notes)
 
 function dateFilter(item: Row1) {
