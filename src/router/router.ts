@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Card from '@/pages/Card.vue'
-import Test from '@/components/Test.vue'
+import Access from '@/pages/Access.vue'
 // import Home from '@/pages/Home.vue'
 
 declare module 'vue-router' {
@@ -27,8 +27,8 @@ export const router = createRouter({
 			meta: { transition: 'slide-left', title: 'Коды полномочий', requiresAuth: false },
 		},
 		{
-			path: '/test',
-			component: Test,
+			path: '/access',
+			component: () => import('@/pages/Access.vue'),
 			meta: { transition: 'slide-left', title: 'Коды полномочий', requiresAuth: false },
 		},
 		{

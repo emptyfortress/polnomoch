@@ -23,8 +23,14 @@ export default {
 			{
 				id: 0,
 				title: 'Коды полномочий',
-				icon: 'mdi-book-open-page-variant-outline',
+				icon: 'mdi-key-chain-variant',
 				url: '/power',
+			},
+			{
+				id: 1,
+				title: 'Коды полномочий 1',
+				icon: 'mdi-key-chain-variant',
+				url: '/access',
 			},
 		]
 		const width = 256

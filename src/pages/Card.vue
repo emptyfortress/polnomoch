@@ -88,12 +88,6 @@ q-page
 	bottom: 0.5rem;
 	left: 0.5rem;
 }
-.center {
-	height: calc(100vh - 220px);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 .q-card {
 	box-shadow: none;
 	border-radius: 4px;
@@ -101,6 +95,6 @@ q-page
 	border-radius: 4px;
 	margin-top: 1rem;
 	padding: 1rem;
-	height: calc(100vh - 210px);
+	height: calc(100vh - 190px);
 }
 </style>
