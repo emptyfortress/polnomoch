@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect, onMounted, onBeforeUpdate, nextTick } from 'vue'
+import { ref, watchEffect, watch, onMounted, onBeforeUpdate } from 'vue'
 import SvgIcon from '@/components/SvgIcon.vue'
 import WordHighlighter from 'vue-word-highlighter'
 import { useInfo } from '@/stores/info'
@@ -8,43 +8,29 @@ import { uid, useQuasar } from 'quasar'
 import CreateCode from '@/components/CreateCode.vue'
 import type { Ref } from 'vue'
 
+const props = defineProps({
+	expand: Boolean,
+	filter: {
+		type: String,
+		default: '',
+	},
+})
+
 const myinfo = useInfo()
 
 const expanded = ref(['0', '4'])
-const filter = ref('')
-const input = ref()
+// const filter = ref('')
 const tree = ref()
-// const edit = ref(false)
 const node: Ref<any[]> = ref([])
 const current = ref()
 
 onMounted(() => {
 	watchEffect(() => {
-		if (filter.value.length > 1) {
+		if (props.filter.length > 1) {
 			tree.value.expandAll()
 		}
 	})
 })
-const expandAll = () => {
-	if (expanded.value.length === 0) {
-		tree.value.expandAll()
-	} else tree.value.collapseAll()
-}
-
-const editMode = ref(false)
-
-// const editNode1 = (e: any) => {
-// 	myinfo.setSelected(e.id)
-// 	myinfo.setEditCode(true)
-// 	myinfo.setMorf('close')
-// }
-
-// const editNode = async (e: any) => {
-// 	editMode.value = true
-// 	await nextTick(() => {
-// 		node.value[e.id as any].show()
-// 	})
-// }
 
 const dialog = ref(false)
 const dialog1 = ref(false)
@@ -153,8 +139,6 @@ q-scroll-area.scroll
 			.item
 				component(:is="SvgIcon" :name="prop.node.icon").ico
 				component(:is="WordHighlighter" :query="filter") {{ prop.node.label }}
-				q-popup-edit(v-model="prop.node.label" auto-save v-slot="scope" :ref="(el: any) => {node[prop.node.id] = el}" v-if="editMode"  @hide="editMode = false")
-					q-input(v-model="scope.value" dense autofocus counter @keyup.enter="scope.set")
 				component(:is="TreeMenu"
 					:node="prop.node"
 					@add1="addSprav"
@@ -211,7 +195,7 @@ CreateCode(:dialog1="dialog1" @cancel="dialog1 = false" @save="save")
 	flex-shrink: 0;
 }
 .scroll {
-	height: calc(100% - 30px);
+	height: 100%;
 }
 .razv {
 	font-size: 0.7rem;

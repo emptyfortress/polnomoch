@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import BranchTree1 from '@/components/BranchTree1.vue'
 import Info1 from '@/components/Info1.vue'
 import { uid } from 'quasar'
 import { useInfo } from '@/stores/info'
+import BranchTree1 from '@/components/BranchTree1.vue'
+import AccessRights from '@/components/AccessRights.vue'
 
 const splitterModel = ref(50)
 
@@ -33,9 +34,7 @@ const addSprav = () => {
 }
 const tabs = ref('info')
 const filter = ref('')
-const expandAll = () => {
-	console.log(1)
-}
+const expand = ref(false)
 </script>
 
 <template lang="pug">
@@ -47,14 +46,14 @@ q-page
 			template(v-slot:before)
 
 				.myrow
-					.razv(@click="expandAll")
+					.razv(@click="expand = !expand")
 						q-btn(round flat dense icon="mdi-unfold-more-horizontal")
 						span Развернуть
 					q-input(dense ref="input" debounce="0" hide-bottom-space color="primary" autofocus v-model="filter" clearable @clear="filter = ''").input
 						template(v-slot:prepend)
 							q-icon(name="mdi-magnify")
 				q-card.left
-					component(:is="BranchTree1")
+					component(:is="BranchTree1" :filter="filter" :expand="expand")
 
 			template(v-slot:after)
 				.pad
@@ -66,7 +65,7 @@ q-page
 					q-tab-panel(name="info")
 						component(:is="Info1")
 					q-tab-panel(name="right")
-						p fuck
+						component(:is="AccessRights")
 
 </template>
 
@@ -110,7 +109,7 @@ q-page
 	border-radius: 4px;
 	margin-top: 1rem;
 	padding: 1rem;
-	height: calc(100vh - 240px);
+	height: calc(100vh - 245px);
 }
 .input {
 	width: 200px;
@@ -129,8 +128,6 @@ q-page
 	margin-left: 0.5rem;
 }
 .q-tab-panel {
-	height: calc(100vh - 240px);
-	background: white;
 	margin: 0;
 	padding: 0;
 }

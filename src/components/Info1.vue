@@ -127,7 +127,7 @@ q-card(:class="{ edit : myinfo.editCode}").mycard
 </template>
 
 <style scoped lang="scss">
-.mycard {
+.q-card.mycard {
 	position: relative;
 	border: 1px solid white;
 	margin-top: 0;
