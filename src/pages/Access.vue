@@ -1,38 +1,38 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Info1 from '@/components/Info1.vue'
-import { uid } from 'quasar'
-import { useInfo } from '@/stores/info'
+// import { uid } from 'quasar'
+// import { useInfo } from '@/stores/info'
 import BranchTree1 from '@/components/BranchTree1.vue'
 import AccessRights from '@/components/AccessRights.vue'
 
-const splitterModel = ref(50)
+const splitterModel = ref(40)
 
-const name = ref('')
-const morphGroupModel = ref('btn')
-const nextMorphStep: any = {
-	btn: 'card1',
-	card1: 'btn',
-}
-const nextMorph = () => {
-	morphGroupModel.value = nextMorphStep[morphGroupModel.value]
-}
+// const name = ref('')
+// const morphGroupModel = ref('btn')
+// const nextMorphStep: any = {
+// 	btn: 'card1',
+// 	card1: 'btn',
+// }
+// const nextMorph = () => {
+// 	morphGroupModel.value = nextMorphStep[morphGroupModel.value]
+// }
 
-const myinfo = useInfo()
-const addSprav = () => {
-	const temp = {
-		id: uid(),
-		label: name.value,
-		icon: 'node-folder',
-		typ: 1,
-		children: [],
-	}
-	myinfo.addSprav(temp)
-	nextMorph()
-	name.value = ''
-	myinfo.setSelected(temp.id)
-}
-const tabs = ref('info')
+// const myinfo = useInfo()
+// const addSprav = () => {
+// 	const temp = {
+// 		id: uid(),
+// 		label: name.value,
+// 		icon: 'node-folder',
+// 		typ: 1,
+// 		children: [],
+// 	}
+// 	myinfo.addSprav(temp)
+// 	nextMorph()
+// 	name.value = ''
+// 	myinfo.setSelected(temp.id)
+// }
+const tabs = ref('right')
 const filter = ref('')
 const expand = ref(false)
 </script>

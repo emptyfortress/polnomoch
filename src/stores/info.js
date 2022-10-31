@@ -8,6 +8,7 @@ export const useInfo = defineStore({
 		selected: '4',
 		confirmMode: false,
 		editCode: false,
+		editRight: false,
 		morf: null,
 		nodes: [
 			{
@@ -338,6 +339,9 @@ export const useInfo = defineStore({
 		},
 		setEditCode(payload) {
 			this.editCode = payload
+		},
+		setEditRight(payload) {
+			this.editRight = payload
 		},
 		setMorf(payload) {
 			this.morf = payload
