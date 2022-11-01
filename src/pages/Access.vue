@@ -32,7 +32,7 @@ const splitterModel = ref(40)
 // 	name.value = ''
 // 	myinfo.setSelected(temp.id)
 // }
-const tabs = ref('right')
+const tabs = ref('info')
 const filter = ref('')
 const expand = ref(false)
 </script>
